@@ -22,6 +22,15 @@ export const LocalStateProvider = ({ children }) => {
   /* Selector de colores */
   const [selectedColor, setSelectedColor] = useState('#6e548c'); // Color por defecto
   /* sidepanel */
+  const [adaptOnZoom, setAdaptOnZoom] = useState(false)
+  const [minZoomRadius, setMinZoomRadius] = useState(0.5)
+  const [maxZoomRadius, setMaxZoomRadius] = useState(24)
+  const [pitchScale, setPitchScale] = useState("map")
+  const [pitchAligment, setPitchAligment] = useState("map")
+  const [radius, setRadius]= useState(4)
+  const [blurRadius, setBlurRadius] = useState(0.2)
+  const [strokeWidth, setStrokeWidth] = useState(1)
+  const [colorState, setColor] = useState('#6e548c')
   const [applyTransition , setApplyTransition] = useState(false)
   const [capaProperties, setCapaProperties] = useState(null);
   const [listOfPropertiesOfLayer, setListOfPropertiesOfLayer] = useState(null)
@@ -68,7 +77,16 @@ export const LocalStateProvider = ({ children }) => {
         listOfPropertiesOfLayer, setListOfPropertiesOfLayer,
         capaProperties, setCapaProperties,
         selectedLayerInfo , setSelectedLayerInfo,
-        applyTransition , setApplyTransition
+        applyTransition , setApplyTransition,
+        colorState, setColor,
+        strokeWidth, setStrokeWidth,
+        blurRadius, setBlurRadius,
+        radius, setRadius,
+        pitchAligment, setPitchAligment,
+        pitchScale, setPitchScale,
+        adaptOnZoom, setAdaptOnZoom,
+        minZoomRadius, setMinZoomRadius,
+        maxZoomRadius, setMaxZoomRadius
       }}
     >
       {children}
