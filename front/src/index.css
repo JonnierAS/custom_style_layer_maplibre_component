@@ -1,0 +1,23 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+body{
+    font-family: sans-serif inherit;
+    overflow: hidden
+}
+
+.mapboxgl-ctrl-group,
+.maplibregl-ctrl-top-left{
+    position: absolute;
+    top: -200px !important;
+    left: 9px;
+}
+
+/* sidePanel */
+.sidepanel-content{
+    right: inherit;
+    display: flex;
+    flex-direction: column;
+    overflow: hidden;
+  }
