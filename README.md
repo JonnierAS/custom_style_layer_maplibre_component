@@ -25,4 +25,4 @@ VITE_URL_GEOSERVER="http://localhost:8080/geoserver"
 VITE_WORK_SPACE_GEOSERVER="work_space"
 ```
 
-![alt text](image.png)
+![alt text](./front/public/image.png)
