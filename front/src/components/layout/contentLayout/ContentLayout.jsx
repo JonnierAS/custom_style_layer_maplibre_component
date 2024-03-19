@@ -1,5 +1,6 @@
 import { useState } from "react";
 import LayerStyle from "./style_layers/LayerStyle/LayerStyle";
+import LayerIcons from "./style_layers/layerIcons/LayerIcons";
 
 
   export default function ContentLayout({showPanel}) {
@@ -18,11 +19,14 @@ import LayerStyle from "./style_layers/LayerStyle/LayerStyle";
           <button className={`${openLayerIcon ? "border-b-transparent":"bg-gray-200"}  border p-1 w-full`}
           onClick={()=>{setOpenLayerIcon(true) , setOpenLayerCircle(false)}}
           >
-            Circle Icon
+            Agregar icono
           </button>
         </div>
         {openLayerCircle && 
           <LayerStyle />
+        }
+        {openLayerIcon &&
+        <LayerIcons />
         }
       </div>
     );
