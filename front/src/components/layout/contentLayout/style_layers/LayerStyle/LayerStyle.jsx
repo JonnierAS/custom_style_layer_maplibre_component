@@ -20,31 +20,7 @@ function LayerStyle() {
       const handleColorChange = (color) => {
         setColor(color);
       };
-      const handleChangeStrokeWidth = (width)=>{
-        setStrokeWidth(width)
-      }
-      const handleChangeBlur = (blur)=>{
-        setBlurRadius(blur)
-      }
-      const handleChangeRadius = (radius)=>{
-        setRadius(radius)
-      }
-      const handleChangePitch = (pitch)=>{
-        setPitchAligment(pitch)
-      }
-      const handleChangePitchScale= (scale)=> {
-        setPitchScale(scale)
-      }
-      const handleChangeadaptOnZoom = (bool)=>{
-        setAdaptOnZoom(bool)
-      }
-      const handleChangeminZoomRadius=(min)=>{
-        console.log(min);
-        setMinZoomRadius(min)
-      }
-      const handleChangemaxZoomRadius= (max)=>{
-        setMaxZoomRadius(max)
-      }
+      
   return (
     <div className="text-center relative top-5">
       <div className="flex-col">
@@ -73,7 +49,7 @@ function LayerStyle() {
             type="number" 
             min={1}
             value={radius}
-            onChange={(e)=>handleChangeRadius(Number.parseInt(e.target.value))}
+            onChange={(e)=>setRadius(Number.parseInt(e.target.value))}
             />
         </div>
         <div className="flex w-40 justify-between relative left-3 top-14">
@@ -84,7 +60,7 @@ function LayerStyle() {
             min={0}
             step={0.2} 
             value={blurRadius}
-            onChange={(e)=>handleChangeBlur(Number.parseFloat(e.target.value))}
+            onChange={(e)=>setBlurRadius(Number.parseFloat(e.target.value))}
             />
         </div>
         <div className="flex w-40 justify-between relative left-3 top-[73px]">
@@ -93,7 +69,7 @@ function LayerStyle() {
             className={`${styleInput}`}
             type="number" 
             min={0}
-            onChange={(e)=>handleChangeStrokeWidth(Number.parseInt(e.target.value))}
+            onChange={(e)=>setStrokeWidth(Number.parseInt(e.target.value))}
             value={strokeWidth}
             />
         </div>
@@ -101,7 +77,7 @@ function LayerStyle() {
             <label className="font-medium">Alineación de tono:</label>
             <select
             value={pitchAligment}
-            onChange={(e)=>handleChangePitch(e.target.value)}
+            onChange={(e)=>setPitchAligment(e.target.value)}
             className={`${styleInput}`}
             >
                 <option value="map" label="Map"></option>
@@ -112,7 +88,7 @@ function LayerStyle() {
             <label className="font-medium">Escala de tono:</label>
             <select
             value={pitchScale}
-            onChange={(e)=>handleChangePitchScale(e.target.value)}
+            onChange={(e)=>setPitchScale(e.target.value)}
             className={`${styleInput}`}
             >
                 <option value="map" label="Map"></option>
@@ -126,7 +102,7 @@ function LayerStyle() {
             type="checkbox"
             value={adaptOnZoom}
             onChange={(e) => {
-              handleChangeadaptOnZoom(e.target.checked);
+              setAdaptOnZoom(e.target.checked);
             }}
           ></input>
         </div>
@@ -143,7 +119,7 @@ function LayerStyle() {
              value={minZoomRadius}
              className={`${styleInput} relative left-[-16px]`}
              onChange={(e) =>
-               handleChangeminZoomRadius(Number.parseFloat(e.target.value))
+              setMinZoomRadius(Number.parseFloat(e.target.value))
              }
              step={0.1}
              min={0.1}
@@ -160,7 +136,7 @@ function LayerStyle() {
              value={maxZoomRadius}
              className={`${styleInput}`}
              onChange={(e) =>
-               handleChangemaxZoomRadius(Number.parseFloat(e.target.value))
+              setMaxZoomRadius(Number.parseFloat(e.target.value))
              }
              step={0.1}
              min={minZoomRadius}
