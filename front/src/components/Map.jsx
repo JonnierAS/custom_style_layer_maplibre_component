@@ -92,7 +92,7 @@ export default function MapContainer() {
         }}
         mapStyle={getStyleUrl(mapType)}
       >
-        {layerName && (
+        {layerName && layerName !== "Sin Capa" ? (
           <>
             <Source
             key={layerName + "layers"}
@@ -183,7 +183,7 @@ export default function MapContainer() {
             />
           </Source>
         </>
-        )}
+        ): null}
         <NavigationControl position="bottom-left" />
         <DrawControl 
           position="bottom-left"
