@@ -21,3 +21,44 @@ body{
     flex-direction: column;
     overflow: hidden;
   }
+
+  .tooltip {
+    @apply relative inline-block;
+  }
+  
+  .tooltip .tooltiptext {
+    @apply invisible min-w-32 bg-gray-800 text-white text-center rounded p-1 absolute z-[1000] items-center  left-10 top-10 -ml-12 opacity-0 transition-opacity duration-300;
+  }
+  
+  
+  .tooltip:hover .tooltiptext {
+    @apply visible opacity-100;
+  }
+  
+  .tooltip:hover .tooltiptextsecond {
+    @apply visible opacity-100;
+  }
+  
+  .tooltip .tooltiptextsecond {
+    @apply invisible w-32 bg-gray-800 text-white text-center rounded p-1 absolute z-[1000] bottom-0 right-12 -ml-12 opacity-0 transition-opacity duration-300;
+  }
+
+  .tooltip:hover .tooltiptextup {
+    @apply visible opacity-100;
+  }
+
+  .tooltip .tooltiptextup {
+    @apply invisible w-[90px] bg-gray-800 text-white text-center rounded py-0.5 px-1 absolute z-[1100] top-[-25px] -ml-14 opacity-0 transition-opacity duration-300;
+  }
+  
+  .tooltip .tooltiptextup::after {
+    content: "";
+    position: absolute;
+    top: 90%;
+    left: 50%;
+    margin-left: 5px; /* Mitad del tamaño del triángulo */
+    border-width: 7px;
+    border-style: solid;
+    border-color: transparent transparent #222 transparent; /* Modifica el color según lo desees */
+    transform: rotate(175deg);
+  }
