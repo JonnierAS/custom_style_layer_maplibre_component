@@ -1,5 +1,5 @@
 import { useState } from "react";
-import LayerCircleForm from "./style_layers/style_layer_circle/LayerCircleForm";
+import LayerStyle from "./style_layers/LayerStyle/LayerStyle";
 
 
   export default function ContentLayout({showPanel}) {
@@ -22,7 +22,7 @@ import LayerCircleForm from "./style_layers/style_layer_circle/LayerCircleForm";
           </button>
         </div>
         {openLayerCircle && 
-          <LayerCircleForm />
+          <LayerStyle />
         }
       </div>
     );
