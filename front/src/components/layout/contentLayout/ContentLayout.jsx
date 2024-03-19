@@ -13,7 +13,7 @@ import LayerStyle from "./style_layers/LayerStyle/LayerStyle";
           <button className={`${openLayerCircle ? "border-b-transparent":"bg-gray-200"} border p-1 w-full`}
           onClick={()=>{setOpenLayerCircle(true),setOpenLayerIcon(false)}}
           >
-            Circle Layer
+            Estilizar Capa
           </button>
           <button className={`${openLayerIcon ? "border-b-transparent":"bg-gray-200"}  border p-1 w-full`}
           onClick={()=>{setOpenLayerIcon(true) , setOpenLayerCircle(false)}}
