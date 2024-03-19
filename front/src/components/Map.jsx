@@ -19,7 +19,8 @@ export default function MapContainer() {
   const dispatch = useDispatch()
   const {showPanel, setShowPanel,applyTransition, colorState,
         strokeWidth, blurRadius, radius, pitchAligment,
-        pitchScale,adaptOnZoom, minZoomRadius, maxZoomRadius
+        pitchScale,adaptOnZoom, minZoomRadius, maxZoomRadius,
+        layersPropertyStyle
         } = useLocalState()
   const [panelWidth, setPanelWidth] = useState(360);
   const [screenWidth, setScreenWidth] = useState("100vw");
@@ -150,16 +151,17 @@ export default function MapContainer() {
             source-layer={LAYER}
             filter={["==", "$type", "Point"]}
             paint={{
-              "circle-color": colorState || "#6e548c",
+              "circle-color": layersPropertyStyle.colorBase || "#6e548c",
               "circle-opacity": 0.5,
-              "circle-stroke-width": strokeWidth || 1,
-              "circle-blur": blurRadius || 1,
+              "circle-stroke-width": layersPropertyStyle.strokeWidth || 1,
+              "circle-stroke-color": layersPropertyStyle.lineColor || "#000000",
+              "circle-blur": layersPropertyStyle.blurLayer || 1,
               "circle-radius": {
-                stops: [[0, 9], [10, radius]],
+                stops: [[0, 9], [10, layersPropertyStyle.radius]],
                 base: 1.75
               },
-              "circle-pitch-alignment": pitchAligment,
-              "circle-pitch-scale": pitchScale
+              "circle-pitch-alignment": layersPropertyStyle.pitchAligment,
+              "circle-pitch-scale": layersPropertyStyle.pitchScale
             }}
           />
         </Source>
