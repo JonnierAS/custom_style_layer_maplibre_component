@@ -2,41 +2,62 @@ import {ColorWheelIcon} from "@radix-ui/react-icons";
 
 import { useLocalState } from "../../../../context/CleanLocalState";
 import HexAlphaColor from "../components/HexAlphaColor";
+
 const styleInput = "absolute w-28 top-[-10px] left-28 py-1 px-2 text-sm rounded outline-none focus-visible:ring-1 focus-visible:ring-offset-1 focus-visible:ring-purple-500 dark:focus-visible:ring-purple-500 dark:focus-visible:ring-offset-gray-900 border border-gray-200 dark:border-gray-500 shadow-sm focus-visible:border-gray-200 dark:focus-visible:border-gray-300 hover:border-gray-300 dark:hover:border-gray-300 block dark:bg-transparent dark:text-gray-100"
+
 function LayerStyle() {
     const { openModalChangeColor, setOpenModalChangeColor,
-        colorState, setColor,
-        strokeWidth, setStrokeWidth, setBlurRadius,blurRadius, 
-        radius, setRadius, pitchAligment, setPitchAligment,
-        pitchScale, setPitchScale, adaptOnZoom, setAdaptOnZoom,
-        minZoomRadius, setMinZoomRadius,
-        maxZoomRadius, setMaxZoomRadius
+        layersPropertyStyle, setLayerPropertyStyle
       } = useLocalState();
 
-      const openModalChangeColorHandler = () => {
-        setOpenModalChangeColor(!openModalChangeColor);
+      const openModalChangeColorHandler = (typeColor) => {
+        setOpenModalChangeColor({state: true, type: typeColor});
       };
-     
+
       const handleColorChange = (color) => {
-        setColor(color);
+        if(openModalChangeColor.type === "base"){
+          setLayerPropertyStyle({...layersPropertyStyle, colorBase: color})
+        }
+        if(openModalChangeColor.type === "line"){
+          setLayerPropertyStyle({...layersPropertyStyle, lineColor: color})
+        }
       };
-      
   return (
     <div className="text-center relative top-5">
       <div className="flex-col">
         <div className="flex w-40 justify-between relative left-3 top-5">
-            <label className="font-medium">Color:</label>
+            <label className="font-medium">Color base:</label>
             <button
-            onClick={openModalChangeColorHandler}
+            disabled={openModalChangeColor.type === "line"}
+            onClick={()=>openModalChangeColorHandler("base")}
             className={`${
-                openModalChangeColor
+                openModalChangeColor.type === "base"
                 ? "bg-gray-300"
                 : ""
-            } tooltip hover:bg-gray-300  p-1 right-7 top-[-4px] rounded-md `}
+            } ${openModalChangeColor.type === "line" ? "cursor-not-allowed":""} tooltip hover:bg-gray-300  p-1 right-7 top-[-4px] rounded-md `}
             >
             <ColorWheelIcon />
             <span className="tooltiptextup">
-                {openModalChangeColor
+                {openModalChangeColor.state && openModalChangeColor.type === "line"
+                ? "Finalice la accion anterior"
+                : "Cambiar estilo"}
+            </span>
+            </button>
+        </div>
+        <div className="flex w-40 justify-between relative left-3 top-5">
+            <label className="font-medium">Color de Linea:</label>
+            <button
+            disabled={openModalChangeColor.type === "base"}
+            onClick={()=>openModalChangeColorHandler("line")}
+            className={`${
+              openModalChangeColor.type === "line"
+                ? "bg-gray-300"
+                : ""
+            } ${openModalChangeColor.type === "base" ? "cursor-not-allowed":""} tooltip hover:bg-gray-300  p-1 right-7 top-[-4px] rounded-md `}
+            >
+            <ColorWheelIcon />
+            <span className="tooltiptextup">
+                {openModalChangeColor.state && openModalChangeColor.type === "base"
                 ? "Finalice la accion anterior"
                 : "Cambiar estilo"}
             </span>
@@ -48,8 +69,8 @@ function LayerStyle() {
             className={`${styleInput}`}
             type="number" 
             min={1}
-            value={radius}
-            onChange={(e)=>setRadius(Number.parseInt(e.target.value))}
+            value={layersPropertyStyle.radius}
+            onChange={(e)=>setLayerPropertyStyle({...layersPropertyStyle, radius: Number.parseInt(e.target.value)})}
             />
         </div>
         <div className="flex w-40 justify-between relative left-3 top-14">
@@ -59,8 +80,8 @@ function LayerStyle() {
             type="number"
             min={0}
             step={0.2} 
-            value={blurRadius}
-            onChange={(e)=>setBlurRadius(Number.parseFloat(e.target.value))}
+            value={layersPropertyStyle.blurLayer}
+            onChange={(e)=>setLayerPropertyStyle({...layersPropertyStyle, blurLayer: Number.parseFloat(e.target.value)})}
             />
         </div>
         <div className="flex w-40 justify-between relative left-3 top-[73px]">
@@ -69,15 +90,15 @@ function LayerStyle() {
             className={`${styleInput}`}
             type="number" 
             min={0}
-            onChange={(e)=>setStrokeWidth(Number.parseInt(e.target.value))}
-            value={strokeWidth}
+            onChange={(e)=>setLayerPropertyStyle({...layersPropertyStyle, strokeWidth: Number.parseFloat(e.target.value)})}
+            value={layersPropertyStyle.strokeWidth}
             />
         </div>
         <div className="flex w-40 justify-between relative left-3 top-[89px]">
             <label className="font-medium">Alineación de tono:</label>
             <select
-            value={pitchAligment}
-            onChange={(e)=>setPitchAligment(e.target.value)}
+            value={layersPropertyStyle.pitchAligment}
+            onChange={(e)=>setLayerPropertyStyle({...layersPropertyStyle, pitchAligment: Number.parseFloat(e.target.value)})}
             className={`${styleInput}`}
             >
                 <option value="map" label="Map"></option>
@@ -87,8 +108,8 @@ function LayerStyle() {
         <div className="flex w-40 justify-between relative left-3 top-[108px]">
             <label className="font-medium">Escala de tono:</label>
             <select
-            value={pitchScale}
-            onChange={(e)=>setPitchScale(e.target.value)}
+            value={layersPropertyStyle.pitchScale}
+            onChange={(e)=>setLayerPropertyStyle({...layersPropertyStyle, pitchScale: Number.parseFloat(e.target.value)})}
             className={`${styleInput}`}
             >
                 <option value="map" label="Map"></option>
@@ -100,14 +121,14 @@ function LayerStyle() {
           <input
             id="circle-adapt-on-zoom"
             type="checkbox"
-            value={adaptOnZoom}
+            value={layersPropertyStyle.adaptOnZoom}
             onChange={(e) => {
-              setAdaptOnZoom(e.target.checked);
+              setLayerPropertyStyle({...layersPropertyStyle, adaptOnZoom: e.target.checked});
             }}
           ></input>
         </div>
       </div>
-      {adaptOnZoom && (
+      {layersPropertyStyle.adaptOnZoom && (
          <div className="relative top-[140px]">
          <div className="flex w-60 justify-between relative left-3 top-1">
            <label className="font-medium w-24">
@@ -116,14 +137,14 @@ function LayerStyle() {
            <input
              id="circle-adapt-on-min-zoom-radius"
              type="number"
-             value={minZoomRadius}
+             value={layersPropertyStyle.minZoomRadius}
              className={`${styleInput} relative left-[-16px]`}
              onChange={(e) =>
-              setMinZoomRadius(Number.parseFloat(e.target.value))
+              setLayerPropertyStyle({...layersPropertyStyle, minZoomRadius: Number.parseFloat(e.target.value)})
              }
              step={0.1}
              min={0.1}
-             max={maxZoomRadius}
+             max={layersPropertyStyle.maxZoomRadius}
            ></input>
          </div>
          <div className="flex w-46 justify-between relative top-3 left-3 ">
@@ -133,13 +154,13 @@ function LayerStyle() {
            <input
              id="circle-adapt-on-max-zoom-radius"
              type="number"
-             value={maxZoomRadius}
+             value={layersPropertyStyle.maxZoomRadius}
              className={`${styleInput}`}
              onChange={(e) =>
-              setMaxZoomRadius(Number.parseFloat(e.target.value))
+              setLayerPropertyStyle({...layersPropertyStyle, maxZoomRadius: Number.parseFloat(e.target.value)})
              }
              step={0.1}
-             min={minZoomRadius}
+             min={layersPropertyStyle.minZoomRadius}
            ></input>
          </div>
          <p className="mt-4 justify-start">
@@ -148,8 +169,8 @@ function LayerStyle() {
          </p>
        </div>
       )}
-      {openModalChangeColor === true  && (
-          <HexAlphaColor colorState={colorState} handleColorChange={handleColorChange} setOpenModalChangeColor={setOpenModalChangeColor} />
+      {openModalChangeColor.state === true  && (
+          <HexAlphaColor layersPropertyStyle={layersPropertyStyle} handleColorChange={handleColorChange} setOpenModalChangeColor={setOpenModalChangeColor} />
         )}
     </div>
   );
