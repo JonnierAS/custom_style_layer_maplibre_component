@@ -1,14 +1,16 @@
 import React, { useEffect, useRef, useState } from 'react'
-import Map, { NavigationControl, Popup } from "react-map-gl/maplibre";
-import mapLibregl from "maplibre-gl";
+import Map, { NavigationControl } from "react-map-gl/maplibre";
 import { Layer, Source } from "react-map-gl";
+import mapLibregl from "maplibre-gl";
 
+
+/* Components */
 import DrawControl from "./toolbar/ToolbarControl"
-import { getStyleUrl } from "./helpers/getStyleURL";
 import { RightPanelLayoutBtn, SidePanel } from './layout/RightPanelLayout';
+import { setMapref } from '../redux/actions/mapActions';
 import { useLocalState } from './context/CleanLocalState';
 import { useDispatch, useSelector } from 'react-redux';
-import { setMapref } from '../redux/actions/mapActions';
+import { getStyleUrl } from "./helpers/getStyleURL";
 
 const LONG = -77.05035612125732;
 const LAT = -12.056058217891378;
@@ -17,9 +19,7 @@ const LAYER = "Bodegas_lima"
 export default function MapContainer() {
   const mapRef = useRef(null);
   const dispatch = useDispatch()
-  const {showPanel, setShowPanel,applyTransition, colorState,
-        strokeWidth, blurRadius, radius, pitchAligment,
-        pitchScale,adaptOnZoom, minZoomRadius, maxZoomRadius,
+  const {showPanel, setShowPanel,applyTransition,
         layersPropertyStyle
         } = useLocalState()
   const [panelWidth, setPanelWidth] = useState(360);
@@ -27,7 +27,7 @@ export default function MapContainer() {
   const [mapType, setMapType] = useState("https://carto.com/help/images/building-maps/basemaps/voyager_labels.png");
   
   const mapBoxDrawStateRef = useSelector(state => state.mapBoxDrawStateRef)
-
+  const layerName = useSelector(state => state.layerName?.label)
 
   useEffect(() => {
     const screenWidth = window.innerWidth;
@@ -92,87 +92,105 @@ export default function MapContainer() {
         }}
         mapStyle={getStyleUrl(mapType)}
       >
-        <Source
-          key={LAYER + "layers"}
-          id={LAYER}
-          type="vector"
-          scheme="tms"
-          name={LAYER}
-          tiles={[
-            `${
-              import.meta.env.VITE_URL_GEOSERVER
-            }/gwc/service/tms/1.0.0/azzorti_vt:${LAYER}@EPSG%3A900913@pbf/{z}/{x}/{y}.pbf`,
-          ]}
-        >
-          <Layer
-            id={LAYER}
-            type="fill"
-            source={LAYER}
-            key={LAYER + 1}
-            source-layer={LAYER}
-            paint={{
-              "fill-outline-color": "#000000",
-              "fill-color": "#6e548c",
-              "fill-opacity": 0.5,
-            }}
-          />
-          <Layer
-            id={`${LAYER}-line`}
-            type="line"
-            source={LAYER}
-            key={LAYER+2}
-            source-layer={LAYER}
-            paint={{
-              "line-color": "#222",
-              "line-width": 1,
-              "line-opacity": 1,
-            }}
-          />
-          <Layer
-            id={`${LAYER}-label`}
-            type="symbol"
-            source={LAYER}
-            source-layer={LAYER}
-            layout={{
-              "text-anchor": "center",
-              // "text-field": `{${property}}`,
-              "text-font": ["Open Sans Regular"],
-              "text-size": 12,
-            }}
-            paint={{
-              "text-color": "#ffffff",
-            }}
-          />
-          <Layer
-            type="circle"
-            source={LAYER}
-            id={LAYER + 1}
-            key={LAYER+3}
-            source-layer={LAYER}
-            filter={["==", "$type", "Point"]}
-            paint={{
-              "circle-color": layersPropertyStyle.colorBase || "#6e548c",
-              "circle-opacity": 0.5,
-              "circle-stroke-width": layersPropertyStyle.strokeWidth || 1,
-              "circle-stroke-color": layersPropertyStyle.lineColor || "#000000",
-              "circle-blur": layersPropertyStyle.blurLayer || 1,
-              "circle-radius": {
-                stops: [[0, 9], [10, layersPropertyStyle.radius]],
-                base: 1.75
-              },
-              "circle-pitch-alignment": layersPropertyStyle.pitchAligment,
-              "circle-pitch-scale": layersPropertyStyle.pitchScale
-            }}
-          />
-        </Source>
-
+        {layerName && (
+          <>
+            <Source
+            key={layerName + "layers"}
+            id={layerName}
+            type="vector"
+            scheme="tms"
+            name={layerName}
+            tiles={[
+              `${
+                import.meta.env.VITE_URL_GEOSERVER
+              }/gwc/service/tms/1.0.0/azzorti_vt:${layerName}@EPSG%3A900913@pbf/{z}/{x}/{y}.pbf`,
+            ]}
+          >
+            <Layer
+              id={`${layerName}-layer`}
+              type="fill"
+              source={layerName}
+              key={`${layerName}-layer`}
+              source-layer={layerName}
+              paint={{
+                "fill-color": layersPropertyStyle.colorBase || "#6e548c",
+                "fill-opacity": 0.5,
+              }}
+            />
+            <Layer
+              id={`${layerName}-line`}
+              type="line"
+              source={layerName}
+              key={`${layerName}-line`}
+              source-layer={layerName}
+              paint={{
+                "line-color": layersPropertyStyle.lineColor ||  "#222",
+                "line-width": layersPropertyStyle.strokeWidth || 1,
+                "line-opacity": 1,
+                "line-blur": layersPropertyStyle.blurLayer || 1,
+                
+              }}
+            />
+            <Layer
+              id={`${layerName}-label`}
+              key={`${layerName}-label`}
+              type="symbol"
+              source={layerName}
+              source-layer={layerName}
+              layout={{
+                "text-anchor": "center",
+                // "text-field": `{${property}}`,
+                "text-font": ["Open Sans Regular"],
+                "text-size": 12,
+              }}
+              paint={{
+                "text-color": "#ffffff",
+              }}
+            />
+          </Source>
+          <Source
+            key={`${layerName}-`}
+            id={`${layerName}-`}
+            type="vector"
+            scheme="tms"
+            name={layerName}
+            tiles={[
+              `${
+                import.meta.env.VITE_URL_GEOSERVER
+              }/gwc/service/tms/1.0.0/azzorti_vt:${layerName}@EPSG%3A900913@pbf/{z}/{x}/{y}.pbf`,
+            ]}
+          >
+            <Layer
+              type="circle"
+              source={layerName}
+              id={`${layerName}-circle`}
+              key={`${layerName}-circle`}
+              source-layer={layerName}
+              filter={["==", "$type", "Point"]}
+              paint={{
+                "circle-color": layersPropertyStyle.colorBase || "#6e548c",
+                "circle-opacity": 0.5,
+                "circle-stroke-width": layersPropertyStyle.strokeWidth || 1,
+                "circle-stroke-color": layersPropertyStyle.lineColor || "#000000",
+                "circle-blur": layersPropertyStyle.blurLayer || 1,
+                "circle-radius": {
+                  stops: [[0, 9], [10, layersPropertyStyle.radius]],
+                  base: 1.75
+                },
+                "circle-pitch-alignment": layersPropertyStyle.pitchAligment,
+                "circle-pitch-scale": layersPropertyStyle.pitchScale
+              }}
+            />
+          </Source>
+        </>
+        )}
         <NavigationControl position="bottom-left" />
-        {/* <DrawControl 
+        <DrawControl 
           position="bottom-left"
           displayControlsDefault={true}
           
           // modeChange={modeChange}
-          /> */}
+          />
 
         <RightPanelLayoutBtn
           side={"right"}
