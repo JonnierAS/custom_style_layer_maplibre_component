@@ -13,13 +13,13 @@ export const LocalStateProvider = ({ children }) => {
     pitchAligment: "map",
     pitchScale: "map",
     adaptOnZoom: false,
-    minZoomRadius: 0.5,
+    minZoomRadius: 8,
     maxZoomRadius: 24
   })
   const [layerIconProperties, setLayerIconProperties] = useState({
     color: "black",
     icon: "marker",
-    opacity: 1,
+    size: 0.5,
     haloBlur: 0,
     haloColor: "white",
     haloWidth: 0,
