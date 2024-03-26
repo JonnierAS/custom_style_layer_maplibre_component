@@ -15,7 +15,7 @@ export default function HexAlphaColor({colorIconState,setOpenIconColor,layersPro
     <div className="absolute z-[1000] bg-white w-[160px] h-[220px] rounded-lg p-1 flex items-center justify-center text-xs right-5 border-2">
             <div className="space-y-1 flex flex-col p-1">
               <HexAlphaColorPicker
-                color={colorIconState || layersPropertyStyle?.colorBase || layersPropertyStyle.lineColor || "#6e548c"}
+                color={colorIconState || layersPropertyStyle?.colorBase || layersPropertyStyle?.lineColor || "#6e548c"}
                 onChange={handleColorChange}
                 className="color-demographic"
                 style={{ height: "140px", width: "140px" }}
@@ -24,7 +24,7 @@ export default function HexAlphaColor({colorIconState,setOpenIconColor,layersPro
                 className={`p-3 rounded border-2 font-sans font-medium h-6 w-full`}
                 prefixed
                 alpha
-                color={colorIconState || layersPropertyStyle?.colorBase || layersPropertyStyle.lineColor || "#6e548c"}
+                color={colorIconState || layersPropertyStyle?.colorBase || layersPropertyStyle?.lineColor || "#6e548c"}
                 onChange={handleColorChange}
               />
               <button
