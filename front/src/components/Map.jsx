@@ -48,7 +48,9 @@ export default function MapContainer() {
     if (mapRef.current && layerName){
       const iconMap = mapRef.current.getMap() 
       const layerId = `${layerName}-icon`
-      loadSymbols(iconMap, layerIconProperties.icon)
+      if(layerIconProperties.icon === "marker"){
+        loadSymbols(iconMap, layerIconProperties.icon)
+      }
       updateIconImage(iconMap, layerId, layerIconProperties.icon || "marker", true);
     }
   }, [mapRef, layerIconProperties]);
@@ -183,7 +185,7 @@ export default function MapContainer() {
                 "circle-stroke-color": layersPropertyStyle.lineColor || "#000000",
                 "circle-blur": layersPropertyStyle.blurLayer || 1,
                 "circle-radius": {
-                  stops: [[0, 9], [10, layersPropertyStyle.radius]],
+                  stops: [[0, 9], [10,layersPropertyStyle.radius]],
                   base: 1.75
                 },
                 "circle-pitch-alignment": layersPropertyStyle.pitchAligment,
@@ -201,7 +203,7 @@ export default function MapContainer() {
                 "icon-overlap": layerIconProperties.overlap,
                 "icon-rotate": layerIconProperties.rotate,
                 "icon-pitch-alignment": layerIconProperties.pitchAlignment,
-
+                "icon-size": layerIconProperties.size
               }}
               paint={{
                 "icon-color": layerIconProperties.color || "#6e548c",
