@@ -11,16 +11,17 @@ import { setMapref } from '../redux/actions/mapActions';
 import { useLocalState } from './context/CleanLocalState';
 import { useDispatch, useSelector } from 'react-redux';
 import { getStyleUrl } from "./helpers/getStyleURL";
-
+import { updateIconImage } from './layout/contentLayout/style_layers/services/updateIconImage';
+import {loadSymbols} from "./layout/contentLayout/style_layers/services/symbol"
 const LONG = -77.05035612125732;
 const LAT = -12.056058217891378;
 const ZOOM = 12;
-const LAYER = "Bodegas_lima"
+
 export default function MapContainer() {
   const mapRef = useRef(null);
   const dispatch = useDispatch()
   const {showPanel, setShowPanel,applyTransition,
-        layersPropertyStyle
+        layersPropertyStyle, layerIconProperties
         } = useLocalState()
   const [panelWidth, setPanelWidth] = useState(360);
   const [screenWidth, setScreenWidth] = useState("100vw");
@@ -42,7 +43,15 @@ export default function MapContainer() {
       mapCanvas.classList.add("cursor-default");
     }
   }, [mapRef,showPanel,screenWidth,mapBoxDrawStateRef]);
-
+  
+  useEffect(() => {
+    if (mapRef.current && layerName){
+      const iconMap = mapRef.current.getMap() 
+      const layerId = `${layerName}-icon`
+      loadSymbols(iconMap, layerIconProperties.icon)
+      updateIconImage(iconMap, layerId, layerIconProperties.icon || "marker", true);
+    }
+  }, [mapRef, layerIconProperties]);
 
   // useEffect(() => {
   //   if (LAYER && mapRef?.current) {
@@ -181,6 +190,47 @@ export default function MapContainer() {
                 "circle-pitch-scale": layersPropertyStyle.pitchScale
               }}
             />
+            <Layer
+              type="symbol"
+              source={layerName}
+              id={`${layerName}-icon`}
+              key={`${layerName}-icon`}
+              source-layer={layerName}
+              filter={["==", "$type", "Point"]}
+              layout={{
+                "icon-overlap": layerIconProperties.overlap,
+                "icon-rotate": layerIconProperties.rotate,
+                "icon-pitch-alignment": layerIconProperties.pitchAlignment,
+
+              }}
+              paint={{
+                "icon-color": layerIconProperties.color || "#6e548c",
+                "icon-halo-width": layerIconProperties.haloWidth|| 1,
+                "icon-halo-color": layerIconProperties.haloColor || "#000000",
+              }}
+            />
+            <Layer
+              id={`${layerName}-label-icon`}
+              key={`${layerName}-label-icon`}
+              type="symbol"
+              source={layerName}
+              source-layer={layerName}
+              layout={{
+                // "text-field": `{${property}}`,
+                "text-font": ["Open Sans Regular"],
+                "text-size": 12,
+                "text-transform": "none",
+                "text-offset":  [0,0],
+                // "text-allow-overlap": "never",
+                "text-rotate": 0,
+                "text-anchor": "center",
+                "text-optional": false
+              }}
+              paint={{
+                "text-color": "#ffffff",
+                "text-opacity": 0.8,
+              }}
+            />
           </Source>
         </>
         ): null}
@@ -189,7 +239,6 @@ export default function MapContainer() {
           position="bottom-left"
           displayControlsDefault={true}
           
-          // modeChange={modeChange}
           />
 
         <RightPanelLayoutBtn
