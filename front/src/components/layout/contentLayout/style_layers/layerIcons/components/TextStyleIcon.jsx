@@ -137,7 +137,7 @@ export default function TextStyleIcon() {
           </select>
         </div>
         <div className={styleDivContainer}>
-          <label className={styleLabel}>Texto Opcional</label>
+          <label className={styleLabel}>Texto Visible</label>
           <input
             type="checkbox"
             checked={layerIconProperties.textOptional}
