@@ -11,16 +11,15 @@ import { setMapref } from '../redux/actions/mapActions';
 import { useLocalState } from './context/CleanLocalState';
 import { useDispatch, useSelector } from 'react-redux';
 import { getStyleUrl } from "./helpers/getStyleURL";
-
 const LONG = -77.05035612125732;
 const LAT = -12.056058217891378;
 const ZOOM = 12;
-const LAYER = "Bodegas_lima"
+
 export default function MapContainer() {
   const mapRef = useRef(null);
   const dispatch = useDispatch()
   const {showPanel, setShowPanel,applyTransition,
-        layersPropertyStyle
+        layersPropertyStyle, layerIconProperties
         } = useLocalState()
   const [panelWidth, setPanelWidth] = useState(360);
   const [screenWidth, setScreenWidth] = useState("100vw");
@@ -42,27 +41,12 @@ export default function MapContainer() {
       mapCanvas.classList.add("cursor-default");
     }
   }, [mapRef,showPanel,screenWidth,mapBoxDrawStateRef]);
-
-
-  // useEffect(() => {
-  //   if (LAYER && mapRef?.current) {
-  //     const map = mapRef.current.getMap();
-  //     map.setPaintProperty(LAYER + 1, "circle", {
-  //       "circle-radius": adaptOnZoom
-  //         ? [
-  //             "interpolate",
-  //             ["linear"],
-  //             ["zoom"],
-  //             0,
-  //             minZoomRadius !== undefined ? minZoomRadius : 5,
-  //             24,
-  //             maxZoomRadius !== undefined ? maxZoomRadius : 50,
-  //           ]
-  //         : 5,
-  //     });
-  //   }
-  // }, [LAYER, adaptOnZoom, minZoomRadius, maxZoomRadius,mapRef]);
   
+  useEffect(() => {
+    if (mapRef.current && layerName){
+      mapRef.current.setSprite("https://demotiles.maplibre.org/styles/osm-bright-gl-style/sprite")
+    }
+  }, [mapRef, layerIconProperties]);
   return (
     <div className="">
       <SidePanel
@@ -73,7 +57,6 @@ export default function MapContainer() {
         showPanel={showPanel}
       />
       <Map
-        // onClick={handleclickSelect}
         ref={mapRef}
         attributionControl={false}
         initialViewState={{
@@ -114,7 +97,6 @@ export default function MapContainer() {
               source-layer={layerName}
               paint={{
                 "fill-color": layersPropertyStyle.colorBase || "#6e548c",
-                "fill-opacity": 0.5,
               }}
             />
             <Layer
@@ -126,7 +108,6 @@ export default function MapContainer() {
               paint={{
                 "line-color": layersPropertyStyle.lineColor ||  "#222",
                 "line-width": layersPropertyStyle.strokeWidth || 1,
-                "line-opacity": 1,
                 "line-blur": layersPropertyStyle.blurLayer || 1,
                 
               }}
@@ -137,14 +118,16 @@ export default function MapContainer() {
               type="symbol"
               source={layerName}
               source-layer={layerName}
+              filter={["!=", "$type", "Point"]}
               layout={{
-                "text-anchor": "center",
-                // "text-field": `{${property}}`,
+                "text-anchor": layersPropertyStyle.textAnchor,
+                "text-field": `Example`,
                 "text-font": ["Open Sans Regular"],
-                "text-size": 12,
+                "text-size": layersPropertyStyle.textSize,
+                "text-allow-overlap": layersPropertyStyle.textOverlap == true ? true : false,
               }}
               paint={{
-                "text-color": "#ffffff",
+                "text-color": layersPropertyStyle.textColor,
               }}
             />
           </Source>
@@ -160,7 +143,7 @@ export default function MapContainer() {
               }/gwc/service/tms/1.0.0/azzorti_vt:${layerName}@EPSG%3A900913@pbf/{z}/{x}/{y}.pbf`,
             ]}
           >
-            <Layer
+            {/* <Layer
               type="circle"
               source={layerName}
               id={`${layerName}-circle`}
@@ -169,16 +152,45 @@ export default function MapContainer() {
               filter={["==", "$type", "Point"]}
               paint={{
                 "circle-color": layersPropertyStyle.colorBase || "#6e548c",
-                "circle-opacity": 0.5,
                 "circle-stroke-width": layersPropertyStyle.strokeWidth || 1,
                 "circle-stroke-color": layersPropertyStyle.lineColor || "#000000",
                 "circle-blur": layersPropertyStyle.blurLayer || 1,
                 "circle-radius": {
-                  stops: [[0, 9], [10, layersPropertyStyle.radius]],
+                  stops: [[0, 9], [10,layersPropertyStyle.radius]],
                   base: 1.75
                 },
                 "circle-pitch-alignment": layersPropertyStyle.pitchAligment,
                 "circle-pitch-scale": layersPropertyStyle.pitchScale
+              }}
+            /> */}
+            <Layer
+              type="symbol"
+              source={layerName}
+              id={`${layerName}-icon`}
+              key={`${layerName}-icon`}
+              source-layer={layerName}
+              filter={["==", "$type", "Point"]}
+              layout={{
+                "icon-image": layerIconProperties.icon,
+                "icon-overlap": layerIconProperties.overlap,
+                "icon-rotate": layerIconProperties.rotate,
+                "icon-pitch-alignment": layerIconProperties.pitchAlignment,
+                "icon-size": layerIconProperties.size,
+                "text-field": layerIconProperties.textOptional ? "Example": null,
+                "text-font": ["Open Sans Regular"],
+                "text-size": layerIconProperties.textSize,
+                "text-transform": layerIconProperties.textTransform,
+                "text-offset":  [layerIconProperties.textOffsetX,layerIconProperties.textOffsetY],
+                "text-allow-overlap": layerIconProperties.textOverlap,
+                "text-rotate": layerIconProperties.textRotate,
+                "text-anchor": layerIconProperties.textAnchor,
+                "text-optional": layerIconProperties.textOptional
+              }}
+              paint={{
+                "icon-color": layerIconProperties.color || "#6e548c",
+                "icon-halo-width": layerIconProperties.haloWidth|| 1,
+                "icon-halo-color": layerIconProperties.haloColor || "#000000",
+                "text-color": layerIconProperties.textColor,
               }}
             />
           </Source>
@@ -189,7 +201,6 @@ export default function MapContainer() {
           position="bottom-left"
           displayControlsDefault={true}
           
-          // modeChange={modeChange}
           />
 
         <RightPanelLayoutBtn

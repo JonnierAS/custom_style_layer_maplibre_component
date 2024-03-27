@@ -26,3 +26,4 @@ VITE_WORK_SPACE_GEOSERVER="work_space"
 ```
 
 ![alt text](./front/public/image.png)
+![alt text](./front/public/seleccion_icons.png)

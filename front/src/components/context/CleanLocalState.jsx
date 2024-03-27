@@ -13,11 +13,39 @@ export const LocalStateProvider = ({ children }) => {
     pitchAligment: "map",
     pitchScale: "map",
     adaptOnZoom: false,
-    minZoomRadius: 0.5,
-    maxZoomRadius: 24
+    minZoomRadius: 8,
+    maxZoomRadius: 24,
+    textColor: "black",
+    textSize: 16,
+    textAnchor: "center",
+    textOverlap: false,
   })
+  const [layerIconProperties, setLayerIconProperties] = useState({
+    color: "black",
+    icon: "marker",
+    size: 0.5,
+    haloBlur: 0,
+    haloColor: "white",
+    haloWidth: 0,
+    overlap: "never",
+    rotate: 0,
+    pitchAlignment: "auto",
+    textColor: "black",
+    textOverlap: false,
+    textRotate: 0,
+    textSize: 16,
+    textOffsetX: 0,
+    textOffsetY: 0,
+    textAnchor: "center",
+    textOptional: true,
+    textTransform: "none",
+    textOpacity: 1,
+    adaptOnZoom: false,
+    minZoomIconSize: 0.1,
+    maxZoomIconSize: 1,
+  });
   const [openModalChangeColor, setOpenModalChangeColor] = useState({state: false, type: ""});
-  
+  const [openIconSelect, setOpenIconSelect] = useState(false);
   const [applyTransition , setApplyTransition] = useState(false)
   const [showPanel, setShowPanel] = useState(false)
 
@@ -27,7 +55,9 @@ export const LocalStateProvider = ({ children }) => {
         openModalChangeColor, setOpenModalChangeColor,
         showPanel, setShowPanel,
         applyTransition , setApplyTransition,
-        layersPropertyStyle, setLayerPropertyStyle
+        layersPropertyStyle, setLayerPropertyStyle,
+        layerIconProperties, setLayerIconProperties,
+        openIconSelect, setOpenIconSelect
       }}
     >
       {children}

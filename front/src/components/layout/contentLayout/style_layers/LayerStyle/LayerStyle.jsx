@@ -1,14 +1,16 @@
 
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { useLocalState } from "../../../../context/CleanLocalState";
 import HexAlphaColor from "../components/HexAlphaColor";
 import SelectLayers from "../components/SelectLayers";
 import ContentlayerStyle from "./ContentlayerStyle";
 import { useSelector } from "react-redux";
+import { setPaintProperties } from "../services/symbol";
 
 const styleInput = "absolute w-28 top-[-10px] left-28 py-1 px-2 text-sm rounded outline-none focus-visible:ring-1 focus-visible:ring-offset-1 focus-visible:ring-purple-500 dark:focus-visible:ring-purple-500 dark:focus-visible:ring-offset-gray-900 border border-gray-200 dark:border-gray-500 shadow-sm focus-visible:border-gray-200 dark:focus-visible:border-gray-300 hover:border-gray-300 dark:hover:border-gray-300 block dark:bg-transparent dark:text-gray-100"
 
 function LayerStyle() {
+  const mapRef = useSelector(state=> state.mapRef)
   const layerName = useSelector(state => state.layerName?.label)
     const { openModalChangeColor, setOpenModalChangeColor,
         layersPropertyStyle, setLayerPropertyStyle
@@ -27,6 +29,36 @@ function LayerStyle() {
           setLayerPropertyStyle({...layersPropertyStyle, lineColor: color})
         }
       };
+      // useEffect(() => {
+      //   if(!mapRef?.current) return;
+      //   const iconMap = mapRef.current.getMap()
+      //   const layerId = `${layerName}-circle`
+      //   if (iconMap) {
+      //     setPaintProperties(iconMap, layerId, {
+      //       "circle-radius": layersPropertyStyle.adaptOnZoom
+      //         ? [
+      //             "interpolate",
+      //             ["linear"],
+      //             ["zoom"],
+      //             0,
+      //             [
+      //               "case",
+      //               ["boolean", ["feature-state", "isActive"], false],
+      //               50,
+      //               layersPropertyStyle.minZoomRadius,
+      //             ],
+      //             24,
+      //             [
+      //               "case",
+      //               ["boolean", ["feature-state", "isActive"], false],
+      //               50,
+      //               layersPropertyStyle.maxZoomRadius,
+      //             ],
+      //           ]
+      //         : ["case", ["boolean", ["feature-state", "isActive"], false], 50, 5],
+      //     });
+      //   }
+      // }, [mapRef, layersPropertyStyle]);
   return (
     <div className="text-center relative top-5">
       <div className="flex justify-center">
@@ -68,7 +100,6 @@ function LayerStyle() {
              }
              step={0.1}
              min={0.1}
-             max={layersPropertyStyle.maxZoomRadius}
            ></input>
          </div>
          <div className="flex w-46 justify-between relative top-3 left-3 ">
@@ -84,7 +115,6 @@ function LayerStyle() {
               setLayerPropertyStyle({...layersPropertyStyle, maxZoomRadius: Number.parseFloat(e.target.value)})
              }
              step={0.1}
-             min={layersPropertyStyle.minZoomRadius}
            ></input>
          </div>
          <p className="mt-4 justify-start">
