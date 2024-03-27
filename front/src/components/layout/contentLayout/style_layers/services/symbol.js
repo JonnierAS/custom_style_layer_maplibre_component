@@ -1,9 +1,9 @@
 
-export function loadSymbols(map, icon) {
-  map.loadImage(`static/${icon}.png`, (error, image) => {
-    map.addImage(icon, image, { sdf: true });
-  });
-}
+// export function loadSymbols(map, icon) {
+//   map.loadImage(`static/${icon}.png`, (error, image) => {
+//     map.addImage(icon, image, { sdf: true });
+//   });
+// }
 
 export function setLayoutProperties(map, layerId, properties) {
   for (const key in properties) {
