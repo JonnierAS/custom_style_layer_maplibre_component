@@ -21,7 +21,7 @@ export default function LayerIcons() {
   };
 
   useEffect(() => {
-    if(!mapRef?.current) return;
+    if(!mapRef?.current  || !layerName) return;
     const iconMap = mapRef?.current.getMap()
     const layerId = `${layerName}-icon`
     if (iconMap) {
