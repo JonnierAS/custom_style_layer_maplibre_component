@@ -1,6 +1,6 @@
 import { useState } from "react";
 import LayerStyle from "./style_layers/LayerStyle/LayerStyle";
-import LayerIcons from "./style_layers/layerIcons/LayerIcons";
+import LayerIconContainer from "./style_layers/layerIcons/LayerIconContainer";
 
 
   export default function ContentLayout({showPanel}) {
@@ -26,7 +26,7 @@ import LayerIcons from "./style_layers/layerIcons/LayerIcons";
           <LayerStyle />
         }
         {openLayerIcon &&
-        <LayerIcons />
+        <LayerIconContainer />
         }
       </div>
     );
