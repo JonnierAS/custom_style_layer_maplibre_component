@@ -37,29 +37,22 @@ export default function LayerIcons() {
     <div className="text-center relative top-5 flex flex-col gap-5">
       <div className={styleDivContainer}>
         <label className={styleLabel}>Color:</label>
-        <button
-          onClick={() =>
-            setIconProperties({ ...iconProperties, openIconColor: true })
-          }
+        <button onClick={() => setIconProperties({ ...iconProperties, openIconColor: true })}
           className={`tooltip hover:bg-gray-300 p-1 right-3 top-[-4px] rounded-md ${
             iconProperties.openIconColor ? "bg-gray-300" : ""
           }`}
         >
           <ColorWheelIcon />
-          <span className="tooltiptextup">
-            {iconProperties.openIconColor
-              ? "Finalice la acción anterior"
-              : "Cambiar estilo"}
-          </span>
+          <span className="tooltiptextup">{iconProperties.openIconColor ? "Finalice la acción anterior": "Cambiar estilo"}</span>
         </button>
       </div>
+
       {iconProperties.openIconColor && (
-        <HexAlphaColor
-          colorIconState={iconProperties.colorIconState}
-          handleColorChange={handleColorChange}
+        <HexAlphaColor colorIconState={iconProperties.colorIconState} handleColorChange={handleColorChange}
           setOpenIconColor={setIconProperties}
         />
       )}
+
       <div className={styleDivContainer}>
         <label className={styleLabel}>Icono</label>
         <select className={styleInput} value={layerIconProperties.icon}
