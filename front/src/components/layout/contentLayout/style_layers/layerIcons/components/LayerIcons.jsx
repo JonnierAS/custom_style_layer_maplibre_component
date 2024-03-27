@@ -1,15 +1,17 @@
-import { ColorWheelIcon } from "@radix-ui/react-icons";
+import { ColorWheelIcon, MixIcon } from "@radix-ui/react-icons";
 import { useEffect, useState } from "react";
 import HexAlphaColor from "../../components/HexAlphaColor";
 import { useLocalState } from "../../../../../context/CleanLocalState";
 import { styleDivContainer, styleInput, styleLabel } from "../helper/styleTypeTailwindcss";
 import { useSelector } from "react-redux";
 import { setLayoutProperties } from "../../services/symbol";
+import ModalSelectIcons from "./ModalSelectIcons";
 
 export default function LayerIcons() {
   const mapRef = useSelector(state=> state.mapRef)
   const layerName = useSelector(state => state.layerName?.label)
-  const { layerIconProperties, setLayerIconProperties } = useLocalState();
+  const { layerIconProperties, setLayerIconProperties,openIconSelect, setOpenIconSelect } = useLocalState();
+  
   const [iconProperties, setIconProperties] = useState({
     openIconColor: false,
     colorIconState: "#6e548c"
@@ -35,7 +37,7 @@ export default function LayerIcons() {
 
   return (
     <div className="text-center relative top-5 flex flex-col gap-5">
-      <div className={styleDivContainer}>
+      {/* <div className={styleDivContainer}>
         <label className={styleLabel}>Color:</label>
         <button onClick={() => setIconProperties({ ...iconProperties, openIconColor: true })}
           className={`tooltip hover:bg-gray-300 p-1 right-3 top-[-4px] rounded-md ${
@@ -51,27 +53,27 @@ export default function LayerIcons() {
         <HexAlphaColor colorIconState={iconProperties.colorIconState} handleColorChange={handleColorChange}
           setOpenIconColor={setIconProperties}
         />
-      )}
+      )} */}
 
       <div className={styleDivContainer}>
         <label className={styleLabel}>Icono</label>
-        <select className={styleInput} value={layerIconProperties.icon}
-          onChange={(e) =>setLayerIconProperties({...layerIconProperties,icon: e.target.value})}>
-          <option value="">Pick an icon</option>
-          <option value="mountain" label="Mountain" />
-          <option value="city" label="City" />
-          <option value="lake" label="Lake" />
-        </select>
+        <button className={`tooltip relative right-2 p-1 rounded ${openIconSelect && "bg-gray-300"}`} onClick={()=>setOpenIconSelect(true)}>
+          <MixIcon />
+          <span className="tooltiptextup">Elegir icono</span>
+
+        </button>
       </div>
-      
-      <div className={` ${styleDivContainer} `}>
+      {openIconSelect &&
+        <ModalSelectIcons setOpenIconSelect={setOpenIconSelect} />
+      }
+      {/* <div className={` ${styleDivContainer} `}>
         <label className={styleLabel}>Tamaño del icono</label>
         <input className={styleInput} type="number" step={0.1}
           min={0} max={2} value={layerIconProperties.size}
           onChange={(e) => setLayerIconProperties({ ...layerIconProperties, size: Number.parseFloat(e.target.value)})}/>
-      </div>
+      </div> */}
 
-      <div className={` ${styleDivContainer} `}>
+      {/* <div className={` ${styleDivContainer} `}>
         <label className={styleLabel}>Ancho del Halo</label>
         <input className={styleInput} type="number"
           min={0} max={10}
@@ -99,7 +101,7 @@ export default function LayerIcons() {
               onChange={(e) =>setLayerIconProperties({...layerIconProperties,haloBlur: Number.parseFloat(e.target.value)})}/>
           </div>
         </>
-      )}
+      )} */}
       <div className={` ${styleDivContainer} `}>
         <label className={styleLabel}>Superposición</label>
         <select className={styleInput} value={layerIconProperties.overlap}
