@@ -11,8 +11,6 @@ import { setMapref } from '../redux/actions/mapActions';
 import { useLocalState } from './context/CleanLocalState';
 import { useDispatch, useSelector } from 'react-redux';
 import { getStyleUrl } from "./helpers/getStyleURL";
-import { updateIconImage } from './layout/contentLayout/style_layers/services/updateIconImage';
-import {loadSymbols} from "./layout/contentLayout/style_layers/services/symbol"
 const LONG = -77.05035612125732;
 const LAT = -12.056058217891378;
 const ZOOM = 12;
@@ -46,15 +44,9 @@ export default function MapContainer() {
   
   useEffect(() => {
     if (mapRef.current && layerName){
-      const iconMap = mapRef.current.getMap() 
-      const layerId = `${layerName}-icon`
-      if(layerIconProperties.icon === "marker"){
-        loadSymbols(iconMap, layerIconProperties.icon)
-      }
-      updateIconImage(iconMap, layerId, layerIconProperties.icon || "marker", true);
+      mapRef.current.setSprite("https://demotiles.maplibre.org/styles/osm-bright-gl-style/sprite")
     }
   }, [mapRef, layerIconProperties]);
-
   return (
     <div className="">
       <SidePanel
@@ -65,7 +57,6 @@ export default function MapContainer() {
         showPanel={showPanel}
       />
       <Map
-        // onClick={handleclickSelect}
         ref={mapRef}
         attributionControl={false}
         initialViewState={{
@@ -127,6 +118,7 @@ export default function MapContainer() {
               type="symbol"
               source={layerName}
               source-layer={layerName}
+              filter={["!=", "$type", "Point"]}
               layout={{
                 "text-anchor": layersPropertyStyle.textAnchor,
                 "text-field": `Example`,
@@ -179,6 +171,7 @@ export default function MapContainer() {
               source-layer={layerName}
               filter={["==", "$type", "Point"]}
               layout={{
+                "icon-image": layerIconProperties.icon,
                 "icon-overlap": layerIconProperties.overlap,
                 "icon-rotate": layerIconProperties.rotate,
                 "icon-pitch-alignment": layerIconProperties.pitchAlignment,
