@@ -14,7 +14,11 @@ export const LocalStateProvider = ({ children }) => {
     pitchScale: "map",
     adaptOnZoom: false,
     minZoomRadius: 8,
-    maxZoomRadius: 24
+    maxZoomRadius: 24,
+    textColor: "black",
+    textSize: 16,
+    textAnchor: "center",
+    textOverlap: false,
   })
   const [layerIconProperties, setLayerIconProperties] = useState({
     color: "black",
