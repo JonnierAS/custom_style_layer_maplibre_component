@@ -176,7 +176,7 @@ export default function MapContainer() {
                 "icon-rotate": layerIconProperties.rotate,
                 "icon-pitch-alignment": layerIconProperties.pitchAlignment,
                 "icon-size": layerIconProperties.size,
-                "text-field": layerIconProperties.textOptional ? "Example": null,
+                "text-field": layerIconProperties.textOptional ? `{${layerIconProperties.textField}}`: null,
                 "text-font": ["Open Sans Regular"],
                 "text-size": layerIconProperties.textSize,
                 "text-transform": layerIconProperties.textTransform,
