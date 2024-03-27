@@ -5,7 +5,7 @@ import { styleDivContainer, styleInput, styleLabel } from '../helper/styleTypeTa
 import HexAlphaColor from '../../components/HexAlphaColor';
 
 export default function TextStyleIcon() {
-  const {layerIconProperties, setLayerIconProperties} = useLocalState()
+  const {layerIconProperties,capaProperties, setLayerIconProperties} = useLocalState()
   const [iconProperties, setIconProperties] = useState({
     openIconColor: false,
     colorIconState: "#6e548c"
@@ -43,6 +43,20 @@ export default function TextStyleIcon() {
             setOpenIconColor={setIconProperties}
           />
         )}
+        {/* Select properties */}
+        <div className={styleDivContainer}>
+          <label className={styleLabel}>Elegir etiqueta</label>
+          <select
+            className={styleInput}
+            value={layerIconProperties.textField}
+            onChange={(e) => setLayerIconProperties({ ...layerIconProperties, textField: e.target.value })}
+          >
+            {capaProperties && capaProperties?.map((name, index) => (
+              <option key={index} value={name}>{name}</option>
+            ))}
+          </select>
+        </div>
+
         <div className={styleDivContainer}>
           <label className={styleLabel}>Tamaño</label>
           <input
