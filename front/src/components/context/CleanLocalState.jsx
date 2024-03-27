@@ -27,7 +27,7 @@ export const LocalStateProvider = ({ children }) => {
     haloBlur: 0,
     haloColor: "white",
     haloWidth: 0,
-    overlap: "always",
+    overlap: "never",
     rotate: 0,
     pitchAlignment: "auto",
     textColor: "black",
