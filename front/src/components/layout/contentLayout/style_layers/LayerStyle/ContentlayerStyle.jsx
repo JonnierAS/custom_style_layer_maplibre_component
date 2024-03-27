@@ -1,10 +1,20 @@
 import {ColorWheelIcon} from "@radix-ui/react-icons";
+import { styleDivContainer, styleLabel } from "../layerIcons/helper/styleTypeTailwindcss";
+import { useState } from "react";
+import HexAlphaColor from "../components/HexAlphaColor";
 
 export default function ContentlayerStyle({typeOfLayer, styleInput, openModalChangeColor, setOpenModalChangeColor, setLayerPropertyStyle, layersPropertyStyle}) {
+    const [textProperties, settextProperties] = useState({
+      opentextColor: false,
+      colortextState: "#6e548c"
+    });
     const openModalChangeColorHandler = (typeColor) => {
         setOpenModalChangeColor({state: true, type: typeColor});
       };
-  
+      const handleColorChange = (colorProp) => {
+        settextProperties({ ...textProperties, colortextState: colorProp });
+        setLayerPropertyStyle({...layersPropertyStyle,textColor: colorProp})
+      };
     return (
     <div className="flex-col">
         <div className="flex w-40 justify-between relative left-3 top-5">
@@ -78,6 +88,77 @@ export default function ContentlayerStyle({typeOfLayer, styleInput, openModalCha
             value={layersPropertyStyle.strokeWidth}
             />
         </div>
+
+        {/* Texto para las capas de poligonos */}
+        {typeOfLayer === "polygon" && 
+        <>
+        <div className={"flex w-40 justify-between relative left-3 top-[93px]"}>
+          <label className={styleLabel}>Color de Texto:</label>
+          <button
+            onClick={() =>
+                settextProperties({ ...textProperties, opentextColor: true })
+            }
+            className={`tooltip hover:bg-gray-300 p-1 right-6 top-[-4px] rounded-md ${
+                textProperties.opentextColor ? "bg-gray-300" : ""
+            }`}
+          >
+            <ColorWheelIcon />
+            <span className="tooltiptextup">
+              {textProperties.opentextColor
+                ? "Finalice la acción anterior"
+                : "Cambiar estilo"}
+            </span>
+          </button>
+        </div>
+        <div className={"flex w-40 justify-between relative left-3 top-[103px]"}>
+            <label className={styleLabel}>Tamaño</label>
+            <input
+            className={styleInput}
+            type="number"
+            value={layersPropertyStyle.textSize}
+            min={12}
+            max={32}
+            step={2}
+            onChange={(e) =>
+                setLayerPropertyStyle({...layersPropertyStyle,textSize: Number.parseInt(e.target.value)})
+            }
+            ></input>
+        </div>
+        <div className={"flex w-40 justify-between relative left-3 top-[123px]"}>
+          <label className={styleLabel}>Ancla</label>
+          <select
+            className={styleInput}
+            value={layersPropertyStyle.textAnchor}
+            onChange={(e) => setLayerPropertyStyle({...layersPropertyStyle,textAnchor: e.target.value})}
+          >
+            <option value="center" label="Center"></option>
+            <option value="top" label="Top"></option>
+            <option value="bottom" label="Bottom"></option>
+            <option value="left" label="Left"></option>
+            <option value="right" label="Right"></option>
+          </select>
+        </div>
+        <div className={"flex w-40 justify-between relative left-3 top-[143px]"}>
+          <label className={styleLabel}>Superposición</label>
+          <select
+            className={styleInput}
+            value={layersPropertyStyle.textOverlap}
+            onChange={(e) => setLayerPropertyStyle({...layersPropertyStyle, textOverlap: e.target.value})}
+          >
+            <option value={false} label="Never"></option>
+            <option value={true} label="Always"></option>
+          </select>
+        </div>
+        </>
+        }
+        {textProperties.opentextColor && (
+          <HexAlphaColor
+            colorIconState={textProperties.colortextState}
+            handleColorChange={handleColorChange}
+            setOpenIconColor={settextProperties}
+          />
+        )}
+
         {typeOfLayer !== "polygon" && 
         <>
             <div className="flex w-40 justify-between relative left-3 top-[89px]">
