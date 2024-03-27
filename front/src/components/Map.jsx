@@ -73,7 +73,6 @@ export default function MapContainer() {
   //     });
   //   }
   // }, [LAYER, adaptOnZoom, minZoomRadius, maxZoomRadius,mapRef]);
-  
   return (
     <div className="">
       <SidePanel
@@ -169,7 +168,7 @@ export default function MapContainer() {
               }/gwc/service/tms/1.0.0/azzorti_vt:${layerName}@EPSG%3A900913@pbf/{z}/{x}/{y}.pbf`,
             ]}
           >
-            <Layer
+            {/* <Layer
               type="circle"
               source={layerName}
               id={`${layerName}-circle`}
@@ -188,7 +187,7 @@ export default function MapContainer() {
                 "circle-pitch-alignment": layersPropertyStyle.pitchAligment,
                 "circle-pitch-scale": layersPropertyStyle.pitchScale
               }}
-            />
+            /> */}
             <Layer
               type="symbol"
               source={layerName}
@@ -200,35 +199,45 @@ export default function MapContainer() {
                 "icon-overlap": layerIconProperties.overlap,
                 "icon-rotate": layerIconProperties.rotate,
                 "icon-pitch-alignment": layerIconProperties.pitchAlignment,
-                "icon-size": layerIconProperties.size
+                "icon-size": layerIconProperties.size,
+                "text-field": layerIconProperties.textOptional ? "Example": null,
+                "text-font": ["Open Sans Regular"],
+                "text-size": layerIconProperties.textSize,
+                "text-transform": layerIconProperties.textTransform,
+                "text-offset":  [layerIconProperties.textOffsetX,layerIconProperties.textOffsetY],
+                "text-allow-overlap": layerIconProperties.textOverlap,
+                "text-rotate": layerIconProperties.textRotate,
+                "text-anchor": layerIconProperties.textAnchor,
+                "text-optional": layerIconProperties.textOptional
               }}
               paint={{
                 "icon-color": layerIconProperties.color || "#6e548c",
                 "icon-halo-width": layerIconProperties.haloWidth|| 1,
                 "icon-halo-color": layerIconProperties.haloColor || "#000000",
+                "text-color": layerIconProperties.textColor,
               }}
             />
-            <Layer
+            {/* <Layer
               id={`${layerName}-label-icon`}
               key={`${layerName}-label-icon`}
               type="symbol"
               source={layerName}
               source-layer={layerName}
               layout={{
-                // "text-field": `{${property}}`,
+                "text-field": `Example`,
                 "text-font": ["Open Sans Regular"],
-                "text-size": 12,
-                "text-transform": "none",
-                "text-offset":  [0,0],
-                // "text-allow-overlap": "never",
-                "text-rotate": 0,
-                "text-anchor": "center",
-                "text-optional": false
+                "text-size": layerIconProperties.textSize,
+                "text-transform": layerIconProperties.textTransform,
+                "text-offset":  [layerIconProperties.textOffsetX,layerIconProperties.textOffsetY],
+                "text-allow-overlap": true,
+                "text-rotate": layerIconProperties.textRotate,
+                "text-anchor": layerIconProperties.textAnchor,
+                "text-optional": layerIconProperties.textOptional
               }}
               paint={{
-                "text-color": "#ffffff",
+                "text-color": layerIconProperties.textColor,
               }}
-            />
+            /> */}
           </Source>
         </>
         ): null}
