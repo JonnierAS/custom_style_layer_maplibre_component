@@ -55,24 +55,6 @@ export default function MapContainer() {
     }
   }, [mapRef, layerIconProperties]);
 
-  // useEffect(() => {
-  //   if (LAYER && mapRef?.current) {
-  //     const map = mapRef.current.getMap();
-  //     map.setPaintProperty(LAYER + 1, "circle", {
-  //       "circle-radius": adaptOnZoom
-  //         ? [
-  //             "interpolate",
-  //             ["linear"],
-  //             ["zoom"],
-  //             0,
-  //             minZoomRadius !== undefined ? minZoomRadius : 5,
-  //             24,
-  //             maxZoomRadius !== undefined ? maxZoomRadius : 50,
-  //           ]
-  //         : 5,
-  //     });
-  //   }
-  // }, [LAYER, adaptOnZoom, minZoomRadius, maxZoomRadius,mapRef]);
   return (
     <div className="">
       <SidePanel
