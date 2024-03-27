@@ -125,7 +125,6 @@ export default function MapContainer() {
               source-layer={layerName}
               paint={{
                 "fill-color": layersPropertyStyle.colorBase || "#6e548c",
-                "fill-opacity": 0.5,
               }}
             />
             <Layer
@@ -137,7 +136,6 @@ export default function MapContainer() {
               paint={{
                 "line-color": layersPropertyStyle.lineColor ||  "#222",
                 "line-width": layersPropertyStyle.strokeWidth || 1,
-                "line-opacity": 1,
                 "line-blur": layersPropertyStyle.blurLayer || 1,
                 
               }}
@@ -180,7 +178,6 @@ export default function MapContainer() {
               filter={["==", "$type", "Point"]}
               paint={{
                 "circle-color": layersPropertyStyle.colorBase || "#6e548c",
-                "circle-opacity": 0.5,
                 "circle-stroke-width": layersPropertyStyle.strokeWidth || 1,
                 "circle-stroke-color": layersPropertyStyle.lineColor || "#000000",
                 "circle-blur": layersPropertyStyle.blurLayer || 1,
@@ -230,7 +227,6 @@ export default function MapContainer() {
               }}
               paint={{
                 "text-color": "#ffffff",
-                "text-opacity": 0.8,
               }}
             />
           </Source>
