@@ -1,10 +1,10 @@
 import { ColorWheelIcon } from "@radix-ui/react-icons";
 import { useEffect, useState } from "react";
-import HexAlphaColor from "../components/HexAlphaColor";
-import { useLocalState } from "../../../../context/CleanLocalState";
-import { styleDivContainer, styleInput, styleLabel } from "./styleTypeTailwindcss";
+import HexAlphaColor from "../../components/HexAlphaColor";
+import { useLocalState } from "../../../../../context/CleanLocalState";
+import { styleDivContainer, styleInput, styleLabel } from "../helper/styleTypeTailwindcss";
 import { useSelector } from "react-redux";
-import { setLayoutProperties } from "../services/symbol";
+import { setLayoutProperties } from "../../services/symbol";
 
 export default function LayerIcons() {
   const mapRef = useSelector(state=> state.mapRef)
@@ -43,7 +43,7 @@ export default function LayerIcons() {
 
   return (
     <div className="text-center relative top-5 flex flex-col gap-5">
-      <div className={`${styleDivContainer} `}>
+      <div className={styleDivContainer}>
         <label className={styleLabel}>Color:</label>
         <button
           onClick={() =>
@@ -68,7 +68,7 @@ export default function LayerIcons() {
           setOpenIconColor={setIconProperties}
         />
       )}
-      <div className={`${styleDivContainer} `}>
+      <div className={styleDivContainer}>
         <label className={styleLabel}>Icono</label>
         <select
           className={styleInput}
@@ -159,7 +159,7 @@ export default function LayerIcons() {
         </>
       )}
       <div className={` ${styleDivContainer} `}>
-        <label className={styleLabel}>Overlap</label>
+        <label className={styleLabel}>Superposición</label>
         <select
           className={styleInput}
           value={layerIconProperties.overlap}
@@ -192,7 +192,7 @@ export default function LayerIcons() {
           }
         />
       </div>
-      <div className={`${styleDivContainer} `}>
+      <div className={styleDivContainer}>
         <label className={styleLabel}>Alineación de tono</label>
         <select
           className={styleInput}
@@ -209,7 +209,7 @@ export default function LayerIcons() {
           <option value="viewport" label="Viewport" />
         </select>
       </div>
-      <div className={`${styleDivContainer} `}>
+      <div className={styleDivContainer}>
         <label className={styleLabel}>Adapt on zoom</label>
         <input
           type="checkbox"
