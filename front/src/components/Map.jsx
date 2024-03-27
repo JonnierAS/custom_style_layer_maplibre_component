@@ -146,13 +146,14 @@ export default function MapContainer() {
               source={layerName}
               source-layer={layerName}
               layout={{
-                "text-anchor": "center",
-                // "text-field": `{${property}}`,
+                "text-anchor": layersPropertyStyle.textAnchor,
+                "text-field": `Example`,
                 "text-font": ["Open Sans Regular"],
-                "text-size": 12,
+                "text-size": layersPropertyStyle.textSize,
+                "text-allow-overlap": layersPropertyStyle.textOverlap == true ? true : false,
               }}
               paint={{
-                "text-color": "#ffffff",
+                "text-color": layersPropertyStyle.textColor,
               }}
             />
           </Source>
@@ -217,27 +218,6 @@ export default function MapContainer() {
                 "text-color": layerIconProperties.textColor,
               }}
             />
-            {/* <Layer
-              id={`${layerName}-label-icon`}
-              key={`${layerName}-label-icon`}
-              type="symbol"
-              source={layerName}
-              source-layer={layerName}
-              layout={{
-                "text-field": `Example`,
-                "text-font": ["Open Sans Regular"],
-                "text-size": layerIconProperties.textSize,
-                "text-transform": layerIconProperties.textTransform,
-                "text-offset":  [layerIconProperties.textOffsetX,layerIconProperties.textOffsetY],
-                "text-allow-overlap": true,
-                "text-rotate": layerIconProperties.textRotate,
-                "text-anchor": layerIconProperties.textAnchor,
-                "text-optional": layerIconProperties.textOptional
-              }}
-              paint={{
-                "text-color": layerIconProperties.textColor,
-              }}
-            /> */}
           </Source>
         </>
         ): null}
