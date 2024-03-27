@@ -45,7 +45,7 @@ export const LocalStateProvider = ({ children }) => {
     maxZoomIconSize: 1,
   });
   const [openModalChangeColor, setOpenModalChangeColor] = useState({state: false, type: ""});
-  
+  const [openIconSelect, setOpenIconSelect] = useState(false);
   const [applyTransition , setApplyTransition] = useState(false)
   const [showPanel, setShowPanel] = useState(false)
 
@@ -56,7 +56,8 @@ export const LocalStateProvider = ({ children }) => {
         showPanel, setShowPanel,
         applyTransition , setApplyTransition,
         layersPropertyStyle, setLayerPropertyStyle,
-        layerIconProperties, setLayerIconProperties
+        layerIconProperties, setLayerIconProperties,
+        openIconSelect, setOpenIconSelect
       }}
     >
       {children}
