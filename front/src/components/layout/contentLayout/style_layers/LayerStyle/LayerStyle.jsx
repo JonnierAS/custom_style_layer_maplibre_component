@@ -29,36 +29,36 @@ function LayerStyle() {
           setLayerPropertyStyle({...layersPropertyStyle, lineColor: color})
         }
       };
-      useEffect(() => {
-        if(!mapRef?.current) return;
-        const iconMap = mapRef.current.getMap()
-        const layerId = `${layerName}-circle`
-        if (iconMap) {
-          setPaintProperties(iconMap, layerId, {
-            "circle-radius": layersPropertyStyle.adaptOnZoom
-              ? [
-                  "interpolate",
-                  ["linear"],
-                  ["zoom"],
-                  0,
-                  [
-                    "case",
-                    ["boolean", ["feature-state", "isActive"], false],
-                    50,
-                    layersPropertyStyle.minZoomRadius,
-                  ],
-                  24,
-                  [
-                    "case",
-                    ["boolean", ["feature-state", "isActive"], false],
-                    50,
-                    layersPropertyStyle.maxZoomRadius,
-                  ],
-                ]
-              : ["case", ["boolean", ["feature-state", "isActive"], false], 50, 5],
-          });
-        }
-      }, [mapRef, layersPropertyStyle]);
+      // useEffect(() => {
+      //   if(!mapRef?.current) return;
+      //   const iconMap = mapRef.current.getMap()
+      //   const layerId = `${layerName}-circle`
+      //   if (iconMap) {
+      //     setPaintProperties(iconMap, layerId, {
+      //       "circle-radius": layersPropertyStyle.adaptOnZoom
+      //         ? [
+      //             "interpolate",
+      //             ["linear"],
+      //             ["zoom"],
+      //             0,
+      //             [
+      //               "case",
+      //               ["boolean", ["feature-state", "isActive"], false],
+      //               50,
+      //               layersPropertyStyle.minZoomRadius,
+      //             ],
+      //             24,
+      //             [
+      //               "case",
+      //               ["boolean", ["feature-state", "isActive"], false],
+      //               50,
+      //               layersPropertyStyle.maxZoomRadius,
+      //             ],
+      //           ]
+      //         : ["case", ["boolean", ["feature-state", "isActive"], false], 50, 5],
+      //     });
+      //   }
+      // }, [mapRef, layersPropertyStyle]);
   return (
     <div className="text-center relative top-5">
       <div className="flex justify-center">
