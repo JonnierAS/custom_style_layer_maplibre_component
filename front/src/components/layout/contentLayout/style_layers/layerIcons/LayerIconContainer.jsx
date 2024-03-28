@@ -28,7 +28,7 @@ export default function LayerIconContainer() {
       }
       }
       handleGetProperties()
-  }, [])
+  }, [layerName])
   return (
     <div>
         <LayerIcons />
