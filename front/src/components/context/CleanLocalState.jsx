@@ -19,6 +19,8 @@ export const LocalStateProvider = ({ children }) => {
     textSize: 16,
     textAnchor: "center",
     textOverlap: false,
+    textField: "Example",
+    textOptional: true
   })
   const [layerIconProperties, setLayerIconProperties] = useState({
     color: "black",
