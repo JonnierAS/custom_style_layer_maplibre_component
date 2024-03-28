@@ -121,10 +121,10 @@ export default function MapContainer() {
               filter={["!=", "$type", "Point"]}
               layout={{
                 "text-anchor": layersPropertyStyle.textAnchor,
-                "text-field": `Example`,
+                "text-field": layersPropertyStyle.textOptional ? `{${layersPropertyStyle.textField}}`: null,
                 "text-font": ["Open Sans Regular"],
                 "text-size": layersPropertyStyle.textSize,
-                "text-allow-overlap": layersPropertyStyle.textOverlap == true ? true : false,
+                "text-allow-overlap": layersPropertyStyle.textOverlap == true,
               }}
               paint={{
                 "text-color": layersPropertyStyle.textColor,
@@ -143,7 +143,7 @@ export default function MapContainer() {
               }/gwc/service/tms/1.0.0/azzorti_vt:${layerName}@EPSG%3A900913@pbf/{z}/{x}/{y}.pbf`,
             ]}
           >
-            {/* <Layer
+            <Layer
               type="circle"
               source={layerName}
               id={`${layerName}-circle`}
@@ -162,7 +162,7 @@ export default function MapContainer() {
                 "circle-pitch-alignment": layersPropertyStyle.pitchAligment,
                 "circle-pitch-scale": layersPropertyStyle.pitchScale
               }}
-            /> */}
+            />
             <Layer
               type="symbol"
               source={layerName}
