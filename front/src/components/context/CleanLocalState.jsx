@@ -45,6 +45,7 @@ export const LocalStateProvider = ({ children }) => {
     adaptOnZoom: false,
     minZoomIconSize: 0.1,
     maxZoomIconSize: 1,
+    showIcon: false,
   });
   const [capaProperties, setCapaProperties] = useState(null);
   const [openModalChangeColor, setOpenModalChangeColor] = useState({state: false, type: ""});
