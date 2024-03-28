@@ -22,12 +22,15 @@ import LayerIconContainer from "./style_layers/layerIcons/LayerIconContainer";
             Agregar icono
           </button>
         </div>
-        {openLayerCircle && 
+
+        <div className={`${openLayerCircle ? "" : "hidden"}`}>
           <LayerStyle />
-        }
-        {openLayerIcon &&
-        <LayerIconContainer />
-        }
+        </div>
+        
+        <div className={`${openLayerIcon ? "": "hidden"}`}>
+          <LayerIconContainer />
+        </div>
+        
       </div>
     );
   }
