@@ -2,12 +2,22 @@ import {ColorWheelIcon} from "@radix-ui/react-icons";
 import { styleDivContainer, styleLabel } from "../layerIcons/helper/styleTypeTailwindcss";
 import { useState } from "react";
 import HexAlphaColor from "../components/HexAlphaColor";
+import { useLocalState } from "../../../../context/CleanLocalState";
 
 export default function ContentlayerStyle({typeOfLayer, styleInput, openModalChangeColor, setOpenModalChangeColor, setLayerPropertyStyle, layersPropertyStyle}) {
-    const [textProperties, settextProperties] = useState({
+  const {capaProperties} = useLocalState()  
+  const [textProperties, settextProperties] = useState({
       opentextColor: false,
       colortextState: "#6e548c"
     });
+    const handleColorChangeColorBase = (color) => {
+      if(openModalChangeColor.type === "base"){
+        setLayerPropertyStyle({...layersPropertyStyle, colorBase: color})
+      }
+      if(openModalChangeColor.type === "line"){
+        setLayerPropertyStyle({...layersPropertyStyle, lineColor: color})
+      }
+    };
     const openModalChangeColorHandler = (typeColor) => {
         setOpenModalChangeColor({state: true, type: typeColor});
       };
@@ -16,8 +26,8 @@ export default function ContentlayerStyle({typeOfLayer, styleInput, openModalCha
         setLayerPropertyStyle({...layersPropertyStyle,textColor: colorProp})
       };
     return (
-    <div className="flex-col">
-        <div className="flex w-40 justify-between relative left-3 top-5">
+    <div className="flex flex-col gap-5">
+        <div className={"flex w-40 justify-between relative left-3 top-5"}>
             <label className="font-medium">Color base:</label>
             <button
             disabled={openModalChangeColor.type === "line"}
@@ -36,7 +46,7 @@ export default function ContentlayerStyle({typeOfLayer, styleInput, openModalCha
             </span>
             </button>
         </div>
-        <div className="flex w-40 justify-between relative left-3 top-5">
+        <div className={styleDivContainer}>
             <label className="font-medium">Color de Linea:</label>
             <button
             disabled={openModalChangeColor.type === "base"}
@@ -56,10 +66,10 @@ export default function ContentlayerStyle({typeOfLayer, styleInput, openModalCha
             </button>
         </div>
         {typeOfLayer !== "polygon" && 
-        <div className="flex w-40 justify-between relative left-3 top-10">
+        <div className={styleDivContainer}>
             <label className="font-medium">Radio:</label>
             <input
-            className={`${styleInput}`}
+            className={styleInput}
             type="number" 
             min={1}
             value={layersPropertyStyle.radius}
@@ -67,10 +77,10 @@ export default function ContentlayerStyle({typeOfLayer, styleInput, openModalCha
             />
         </div>
         }
-        <div className="flex w-40 justify-between relative left-3 top-14">
+        <div className={styleDivContainer}>
             <label className="font-medium">Desenfoque:</label>
             <input
-            className={`${styleInput}`}
+            className={styleInput}
             type="number"
             min={0}
             step={0.2} 
@@ -78,10 +88,10 @@ export default function ContentlayerStyle({typeOfLayer, styleInput, openModalCha
             onChange={(e)=>setLayerPropertyStyle({...layersPropertyStyle, blurLayer: Number.parseFloat(e.target.value)})}
             />
         </div>
-        <div className="flex w-40 justify-between relative left-3 top-[73px]">
+        <div className={styleDivContainer}>
             <label className="font-medium">Ancho de Linea:</label>
             <input
-            className={`${styleInput}`}
+            className={styleInput}
             type="number" 
             min={0}
             onChange={(e)=>setLayerPropertyStyle({...layersPropertyStyle, strokeWidth: Number.parseFloat(e.target.value)})}
@@ -89,10 +99,97 @@ export default function ContentlayerStyle({typeOfLayer, styleInput, openModalCha
             />
         </div>
 
-        {/* Texto para las capas de poligonos */}
-        {typeOfLayer === "polygon" && 
+        {textProperties.opentextColor && (
+          <HexAlphaColor
+            colorIconState={textProperties.colortextState}
+            handleColorChange={handleColorChange}
+            setOpenIconColor={settextProperties}
+          />
+        )}
+        {openModalChangeColor.state === true  && (
+          <HexAlphaColor 
+          layersPropertyStyle={layersPropertyStyle} 
+          handleColorChange={handleColorChangeColorBase} 
+          setOpenModalChangeColor={setOpenModalChangeColor} />
+        )}
+
+        {typeOfLayer !== "polygon" && 
         <>
-        <div className={"flex w-40 justify-between relative left-3 top-[93px]"}>
+            <div className={styleDivContainer}>
+                <label className="font-medium">Alineación de tono:</label>
+                <select
+                value={layersPropertyStyle.pitchAligment}
+                onChange={(e)=>setLayerPropertyStyle({...layersPropertyStyle, pitchAligment: e.target.value})}
+                className={styleInput}
+                >
+                    <option value="map" label="Map" />
+                    <option value="viewport" label="Viewport" />   
+                </select>
+            </div>
+            
+            <div className={styleDivContainer}>
+                <label className="font-medium">Escala de tono:</label>
+                <select
+                value={layersPropertyStyle.pitchScale}
+                onChange={(e)=>setLayerPropertyStyle({...layersPropertyStyle, pitchScale: e.target.value})}
+                className={styleInput}
+                >
+                    <option value="map" label="Map" />
+                    <option value="viewport" label="Viewport" />
+                </select>
+            </div>
+            <div className={styleDivContainer}>
+            <label className="font-medium">Adapt on zoom</label>
+            <input id="circle-adapt-on-zoom"
+            type="checkbox"
+            value={layersPropertyStyle.adaptOnZoom}
+            onChange={(e) => {
+                setLayerPropertyStyle({...layersPropertyStyle, adaptOnZoom: e.target.checked});
+            }} />
+            </div>
+            {layersPropertyStyle.adaptOnZoom && (
+         <div className="relative">
+         <div className="flex w-60 justify-between relative left-3 ">
+           <label className="font-medium w-24">
+             Radio del circulo (at zoom 0)
+           </label>
+           <input
+             id="circle-adapt-on-min-zoom-radius"
+             type="number"
+             value={layersPropertyStyle.minZoomRadius}
+             className={`${styleInput} relative left-[-16px]`}
+             onChange={(e) =>
+              setLayerPropertyStyle({...layersPropertyStyle, minZoomRadius: Number.parseFloat(e.target.value)})
+             }
+             step={0.1}
+             min={0.1}
+           ></input>
+         </div>
+         <div className="flex w-46 justify-between relative left-3 ">
+           <label className="font-medium w-24">
+             Radio del circulo (at zoom 24)
+           </label>
+           <input id="circle-adapt-on-max-zoom-radius"
+           type="number"
+           value={layersPropertyStyle.maxZoomRadius}
+           className={`${styleInput}`}
+           onChange={(e) =>
+            setLayerPropertyStyle({...layersPropertyStyle, maxZoomRadius: Number.parseFloat(e.target.value)})
+           }
+           step={0.1} />
+         </div>
+         <p className="mt-4 justify-start">
+         Las propiedades que admiten expresiones de interpolación pueden cambiar cuando
+           Cambie de zoom. Se puede establecer un valor para cada nivel de zoom
+         </p>
+       </div>
+      )}
+        </>
+        }
+        {/* Texto para las capas de poligonos */}
+        {typeOfLayer == "polygon" && 
+        <>
+        <div className={styleDivContainer}>
           <label className={styleLabel}>Color de Texto:</label>
           <button
             onClick={() =>
@@ -110,89 +207,56 @@ export default function ContentlayerStyle({typeOfLayer, styleInput, openModalCha
             </span>
           </button>
         </div>
-        <div className={"flex w-40 justify-between relative left-3 top-[103px]"}>
+        <div className={styleDivContainer}>
             <label className={styleLabel}>Tamaño</label>
-            <input
-            className={styleInput}
-            type="number"
-            value={layersPropertyStyle.textSize}
-            min={12}
-            max={32}
-            step={2}
-            onChange={(e) =>
-                setLayerPropertyStyle({...layersPropertyStyle,textSize: Number.parseInt(e.target.value)})
-            }
-            ></input>
+            <input className={styleInput} type="number" value={layersPropertyStyle.textSize}
+            min={12} max={32} step={2}
+            onChange={(e)=>setLayerPropertyStyle({...layersPropertyStyle,textSize: Number.parseInt(e.target.value)})}/>
         </div>
-        <div className={"flex w-40 justify-between relative left-3 top-[123px]"}>
+
+        <div className={styleDivContainer}>
           <label className={styleLabel}>Ancla</label>
           <select
             className={styleInput}
             value={layersPropertyStyle.textAnchor}
             onChange={(e) => setLayerPropertyStyle({...layersPropertyStyle,textAnchor: e.target.value})}
           >
-            <option value="center" label="Center"></option>
-            <option value="top" label="Top"></option>
-            <option value="bottom" label="Bottom"></option>
-            <option value="left" label="Left"></option>
-            <option value="right" label="Right"></option>
+            <option value="center" label="Center" />
+            <option value="top" label="Top" />
+            <option value="bottom" label="Bottom" />
+            <option value="left" label="Left" />
+            <option value="right" label="Right" />
           </select>
         </div>
-        <div className={"flex w-40 justify-between relative left-3 top-[143px]"}>
+        <div className={styleDivContainer}>
           <label className={styleLabel}>Superposición</label>
           <select
             className={styleInput}
             value={layersPropertyStyle.textOverlap}
             onChange={(e) => setLayerPropertyStyle({...layersPropertyStyle, textOverlap: e.target.value})}
           >
-            <option value={false} label="Never"></option>
-            <option value={true} label="Always"></option>
+            <option value={false} label="Never" />
+            <option value={true} label="Always" />
           </select>
         </div>
-        </>
-        }
-        {textProperties.opentextColor && (
-          <HexAlphaColor
-            colorIconState={textProperties.colortextState}
-            handleColorChange={handleColorChange}
-            setOpenIconColor={settextProperties}
-          />
-        )}
-
-        {typeOfLayer !== "polygon" && 
-        <>
-            <div className="flex w-40 justify-between relative left-3 top-[89px]">
-                <label className="font-medium">Alineación de tono:</label>
-                <select
-                value={layersPropertyStyle.pitchAligment}
-                onChange={(e)=>setLayerPropertyStyle({...layersPropertyStyle, pitchAligment: e.target.value})}
-                className={`${styleInput}`}
-                >
-                    <option value="map" label="Map" />
-                    <option value="viewport" label="Viewport" />   
-                </select>
-            </div>
-            
-            <div className="flex w-40 justify-between relative left-3 top-[108px]">
-                <label className="font-medium">Escala de tono:</label>
-                <select
-                value={layersPropertyStyle.pitchScale}
-                onChange={(e)=>setLayerPropertyStyle({...layersPropertyStyle, pitchScale: e.target.value})}
-                className={`${styleInput}`}
-                >
-                    <option value="map" label="Map" />
-                    <option value="viewport" label="Viewport" />
-                </select>
-            </div>
-            <div className="flex w-40 justify-between relative left-3 top-[120px]">
-            <label className="font-medium">Adapt on zoom</label>
-            <input id="circle-adapt-on-zoom"
-            type="checkbox"
-            value={layersPropertyStyle.adaptOnZoom}
-            onChange={(e) => {
-                setLayerPropertyStyle({...layersPropertyStyle, adaptOnZoom: e.target.checked});
-            }} />
-            </div>
+        {/* Select properties */}
+        <div className={styleDivContainer}>
+          <label className={styleLabel}>Elegir etiqueta</label>
+          <select
+            className={styleInput}
+            value={layersPropertyStyle.textField}
+            onChange={(e) => setLayerPropertyStyle({ ...layersPropertyStyle, textField: e.target.value })}
+          >
+            {capaProperties?.map((name, index) => (
+              <option key={index} value={name}>{name}</option>
+            ))}
+          </select>
+        </div>
+        <div className={styleDivContainer}>
+          <label className={styleLabel}>Texto Visible</label>
+          <input type="checkbox" checked={layersPropertyStyle.textOptional}
+          onChange={(e)=>setLayerPropertyStyle({...layersPropertyStyle,textOptional: e.target.checked})}/>
+        </div>
         </>
         }
       </div>

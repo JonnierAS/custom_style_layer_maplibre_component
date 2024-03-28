@@ -1,6 +1,5 @@
-import { ColorWheelIcon, MixIcon } from "@radix-ui/react-icons";
-import { useEffect, useState } from "react";
-import HexAlphaColor from "../../components/HexAlphaColor";
+import { MixIcon } from "@radix-ui/react-icons";
+import { useEffect } from "react";
 import { useLocalState } from "../../../../../context/CleanLocalState";
 import { styleDivContainer, styleInput, styleLabel } from "../helper/styleTypeTailwindcss";
 import { useSelector } from "react-redux";
@@ -12,15 +11,7 @@ export default function LayerIcons() {
   const layerName = useSelector(state => state.layerName?.label)
   const { layerIconProperties, setLayerIconProperties,openIconSelect, setOpenIconSelect } = useLocalState();
   
-  const [iconProperties, setIconProperties] = useState({
-    openIconColor: false,
-    colorIconState: "#6e548c"
-  });
 
-  const handleColorChange = (colorProp) => {
-    setIconProperties({ ...iconProperties, colorIconState: colorProp });
-    setLayerIconProperties({ ...layerIconProperties, color: colorProp });
-  };
 
   useEffect(() => {
     if(layerName === "Sin Capa" || !mapRef?.current  || !layerName) return;
@@ -37,71 +28,26 @@ export default function LayerIcons() {
 
   return (
     <div className="text-center relative top-5 flex flex-col gap-5">
-      {/* <div className={styleDivContainer}>
-        <label className={styleLabel}>Color:</label>
-        <button onClick={() => setIconProperties({ ...iconProperties, openIconColor: true })}
-          className={`tooltip hover:bg-gray-300 p-1 right-3 top-[-4px] rounded-md ${
-            iconProperties.openIconColor ? "bg-gray-300" : ""
-          }`}
-        >
-          <ColorWheelIcon />
-          <span className="tooltiptextup">{iconProperties.openIconColor ? "Finalice la acción anterior": "Cambiar estilo"}</span>
-        </button>
-      </div>
-
-      {iconProperties.openIconColor && (
-        <HexAlphaColor colorIconState={iconProperties.colorIconState} handleColorChange={handleColorChange}
-          setOpenIconColor={setIconProperties}
-        />
-      )} */}
-
       <div className={styleDivContainer}>
-        <label className={styleLabel}>Icono</label>
-        <button className={`tooltip relative right-2 p-1 rounded ${openIconSelect && "bg-gray-300"}`} onClick={()=>setOpenIconSelect(true)}>
-          <MixIcon />
-          <span className="tooltiptextup">Elegir icono</span>
+        <div>
+          <label className={styleLabel}>Icono</label>
+          <button className={`tooltip relative right-[-95px] p-1 rounded ${openIconSelect && "bg-gray-300"}`} onClick={()=>setOpenIconSelect(true)}>
+            <MixIcon />
+            <span className="tooltiptextup">Elegir icono</span>
 
-        </button>
+          </button>
+        </div>
+        <div className="relative left-[100px]">
+          <label className={styleLabel}>Mostrar icono</label>
+          <input type="checkbox" 
+            className="relative left-3 top-1" value={layerIconProperties.showIcon}
+            onChange={(e) => setLayerIconProperties({...layerIconProperties,showIcon: e.target.checked,})}
+          />
+        </div>
       </div>
       {openIconSelect &&
         <ModalSelectIcons setOpenIconSelect={setOpenIconSelect} />
       }
-      {/* <div className={` ${styleDivContainer} `}>
-        <label className={styleLabel}>Tamaño del icono</label>
-        <input className={styleInput} type="number" step={0.1}
-          min={0} max={2} value={layerIconProperties.size}
-          onChange={(e) => setLayerIconProperties({ ...layerIconProperties, size: Number.parseFloat(e.target.value)})}/>
-      </div> */}
-
-      {/* <div className={` ${styleDivContainer} `}>
-        <label className={styleLabel}>Ancho del Halo</label>
-        <input className={styleInput} type="number"
-          min={0} max={10}
-          value={layerIconProperties.haloWidth}
-          onChange={(e) =>setLayerIconProperties({...layerIconProperties,haloWidth: Number.parseInt(e.target.value)})}/>
-      </div>
-
-      {layerIconProperties.haloWidth > 0 && (
-        <>
-          <div className={` ${styleDivContainer} `}>
-            <label className={styleLabel}>Color del Halo</label>
-            <select className={styleInput} value={layerIconProperties.haloColor}
-              onChange={(e) =>setLayerIconProperties({...layerIconProperties,haloColor: e.target.value})}>
-              <option value="">Pick a color</option>
-              <option value="red" label="Red" />
-              <option value="green" label="Green" />
-              <option value="blue" label="Blue" />
-            </select>
-          </div>
-
-          <div className={` ${styleDivContainer} `}>
-            <label className={styleLabel}>Desenfoque del Halo</label>
-            <input type="number" min={0} step={0.25} max={5} className={styleInput}
-              value={layerIconProperties.haloBlur}
-              onChange={(e) =>setLayerIconProperties({...layerIconProperties,haloBlur: Number.parseFloat(e.target.value)})}/>
-          </div>
-        </>
-      )} */}
       <div className={` ${styleDivContainer} `}>
         <label className={styleLabel}>Superposición</label>
         <select className={styleInput} value={layerIconProperties.overlap}

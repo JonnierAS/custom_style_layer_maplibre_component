@@ -19,6 +19,8 @@ export const LocalStateProvider = ({ children }) => {
     textSize: 16,
     textAnchor: "center",
     textOverlap: false,
+    textField: "Example",
+    textOptional: true
   })
   const [layerIconProperties, setLayerIconProperties] = useState({
     color: "black",
@@ -39,11 +41,13 @@ export const LocalStateProvider = ({ children }) => {
     textAnchor: "center",
     textOptional: true,
     textTransform: "none",
-    textOpacity: 1,
+    textField: "example",
     adaptOnZoom: false,
     minZoomIconSize: 0.1,
     maxZoomIconSize: 1,
+    showIcon: false,
   });
+  const [capaProperties, setCapaProperties] = useState(null);
   const [openModalChangeColor, setOpenModalChangeColor] = useState({state: false, type: ""});
   const [openIconSelect, setOpenIconSelect] = useState(false);
   const [applyTransition , setApplyTransition] = useState(false)
@@ -57,7 +61,8 @@ export const LocalStateProvider = ({ children }) => {
         applyTransition , setApplyTransition,
         layersPropertyStyle, setLayerPropertyStyle,
         layerIconProperties, setLayerIconProperties,
-        openIconSelect, setOpenIconSelect
+        openIconSelect, setOpenIconSelect,
+        setCapaProperties,capaProperties
       }}
     >
       {children}

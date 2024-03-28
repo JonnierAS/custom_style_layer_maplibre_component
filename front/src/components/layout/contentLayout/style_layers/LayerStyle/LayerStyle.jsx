@@ -1,7 +1,6 @@
 
 import { useEffect, useState } from "react";
 import { useLocalState } from "../../../../context/CleanLocalState";
-import HexAlphaColor from "../components/HexAlphaColor";
 import SelectLayers from "../components/SelectLayers";
 import ContentlayerStyle from "./ContentlayerStyle";
 import { useSelector } from "react-redux";
@@ -21,44 +20,36 @@ function LayerStyle() {
         setTypeOfLayer(type)
       }
 
-      const handleColorChange = (color) => {
-        if(openModalChangeColor.type === "base"){
-          setLayerPropertyStyle({...layersPropertyStyle, colorBase: color})
+      useEffect(() => {
+        if(!mapRef?.current) return;
+        const iconMap = mapRef.current.getMap()
+        const layerId = `${layerName}-circle`
+        if (iconMap) {
+          setPaintProperties(iconMap, layerId, {
+            "circle-radius": layersPropertyStyle.adaptOnZoom
+              ? [
+                  "interpolate",
+                  ["linear"],
+                  ["zoom"],
+                  0,
+                  [
+                    "case",
+                    ["boolean", ["feature-state", "isActive"], false],
+                    50,
+                    layersPropertyStyle.minZoomRadius,
+                  ],
+                  24,
+                  [
+                    "case",
+                    ["boolean", ["feature-state", "isActive"], false],
+                    50,
+                    layersPropertyStyle.maxZoomRadius,
+                  ],
+                ]
+              : ["case", ["boolean", ["feature-state", "isActive"], false], 50, 5],
+          });
         }
-        if(openModalChangeColor.type === "line"){
-          setLayerPropertyStyle({...layersPropertyStyle, lineColor: color})
-        }
-      };
-      // useEffect(() => {
-      //   if(!mapRef?.current) return;
-      //   const iconMap = mapRef.current.getMap()
-      //   const layerId = `${layerName}-circle`
-      //   if (iconMap) {
-      //     setPaintProperties(iconMap, layerId, {
-      //       "circle-radius": layersPropertyStyle.adaptOnZoom
-      //         ? [
-      //             "interpolate",
-      //             ["linear"],
-      //             ["zoom"],
-      //             0,
-      //             [
-      //               "case",
-      //               ["boolean", ["feature-state", "isActive"], false],
-      //               50,
-      //               layersPropertyStyle.minZoomRadius,
-      //             ],
-      //             24,
-      //             [
-      //               "case",
-      //               ["boolean", ["feature-state", "isActive"], false],
-      //               50,
-      //               layersPropertyStyle.maxZoomRadius,
-      //             ],
-      //           ]
-      //         : ["case", ["boolean", ["feature-state", "isActive"], false], 50, 5],
-      //     });
-      //   }
-      // }, [mapRef, layersPropertyStyle]);
+      }, [mapRef, layersPropertyStyle]);
   return (
     <div className="text-center relative top-5">
       <div className="flex justify-center">
@@ -84,48 +75,7 @@ function LayerStyle() {
         styleInput={styleInput}
         />) : null
       }
-      {layersPropertyStyle.adaptOnZoom && (
-         <div className="relative top-[140px]">
-         <div className="flex w-60 justify-between relative left-3 top-1">
-           <label className="font-medium w-24">
-             Radio del circulo (at zoom 0)
-           </label>
-           <input
-             id="circle-adapt-on-min-zoom-radius"
-             type="number"
-             value={layersPropertyStyle.minZoomRadius}
-             className={`${styleInput} relative left-[-16px]`}
-             onChange={(e) =>
-              setLayerPropertyStyle({...layersPropertyStyle, minZoomRadius: Number.parseFloat(e.target.value)})
-             }
-             step={0.1}
-             min={0.1}
-           ></input>
-         </div>
-         <div className="flex w-46 justify-between relative top-3 left-3 ">
-           <label className="font-medium w-24">
-             Radio del circulo (at zoom 24)
-           </label>
-           <input
-             id="circle-adapt-on-max-zoom-radius"
-             type="number"
-             value={layersPropertyStyle.maxZoomRadius}
-             className={`${styleInput}`}
-             onChange={(e) =>
-              setLayerPropertyStyle({...layersPropertyStyle, maxZoomRadius: Number.parseFloat(e.target.value)})
-             }
-             step={0.1}
-           ></input>
-         </div>
-         <p className="mt-4 justify-start">
-         Las propiedades que admiten expresiones de interpolación pueden cambiar cuando
-           Cambie de zoom. Se puede establecer un valor para cada nivel de zoom
-         </p>
-       </div>
-      )}
-      {openModalChangeColor.state === true  && (
-          <HexAlphaColor layersPropertyStyle={layersPropertyStyle} handleColorChange={handleColorChange} setOpenModalChangeColor={setOpenModalChangeColor} />
-        )}
+      
     </div>
   );
 }
