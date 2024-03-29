@@ -1,10 +1,13 @@
-import React from 'react';
 import {Map, NavigationControl, useControl} from 'react-map-gl/maplibre';
-import {GeoJsonLayer, ArcLayer, ScatterplotLayer} from 'deck.gl';
-import {MapboxOverlay as DeckOverlay} from '@deck.gl/mapbox';
+import React, { useEffect, useRef, useState } from 'react';
+import { useDispatch, useSelector } from 'react-redux';
+import maplibregl from "maplibre-gl";
 
-const AIR_PORTS =
-  'https://d2ad6b4ur7yvpq.cloudfront.net/naturalearth-3.3.0/ne_10m_airports.geojson';
+import { RightPanelLayoutBtn, SidePanel } from './layout/RightPanelLayout';
+import { useLocalState } from './context/CleanLocalState';
+import { setMapref } from '../redux/actions/mapActions';
+import DeckGlOverLay from './deckGl/DeckGlOverLay';
+import DrawControl from './toolbar/ToolbarControl';
 
 const INITIAL_VIEW_STATE = {
   latitude: -12.056058217891378,
@@ -12,77 +15,41 @@ const INITIAL_VIEW_STATE = {
   zoom: 4,
   pitch: 30
 };
-
 const MAP_STYLE = 'https://basemaps.cartocdn.com/gl/positron-gl-style/style.json';
-function DeckGLOverlay(props) {
-  const overlay = useControl(() => new DeckOverlay(props));
-  overlay.setProps(props);
-  return null;
-}
 
 export default function MapContainerDeckGl() {
-  const onClick = info => {
-    if (info.object) {
-      // eslint-disable-next-line
-      alert(`${info.object.properties.name} (${info.object.properties.abbrev})`);
+  const {showPanel, setShowPanel, applyTransition} = useLocalState()
+  const [panelWidth, setPanelWidth] = useState(360);
+  const [screenWidth, setScreenWidth] = useState("100vw");
+  const dispatch = useDispatch()
+  const mapRef = useRef(null);
+
+  useEffect(() => {
+    const screenWidth = window.innerWidth;
+    setScreenWidth(screenWidth)
+    dispatch(setMapref(mapRef))
+    if(showPanel === false){
+      setPanelWidth(360)
     }
-  };
-  const layers = [
-    new GeoJsonLayer({
-      id: 'Asesoras',
-      data: 'https://geosolution.ddns.net/web_azzorti_geoserver/azzorti_vt/wms?service=WMS&version=1.1.0&request=GetMap&layers=azzorti_vt%3AAsesoras&bbox=-81.31124877929688%2C-18.174219131469727%2C0.0%2C0.0&width=768&height=330&srs=EPSG%3A4326&styles=&format=geojson',
-      filled: true,
-      pointRadiusMinPixels: 2,
-      pointRadiusScale: 15,
-      getFillColor: [200, 0, 80, 180],
-      minZoom: 0,
-      maxZoom: 20,
-      getLineColor: [255, 255, 255],
-      lineWidthMinPixels: 1,
-    })
-  ];
-
-
-  // const layers = [
-  //   new GeoJsonLayer({
-  //     id: 'airports',
-  //     data: AIR_PORTS,
-  //     // Styles
-  //     filled: true,
-  //     pointRadiusMinPixels: 2,
-  //     pointRadiusScale: 2000,
-  //     getPointRadius: f => 11 - f.properties.scalerank,
-  //     getFillColor: [200, 0, 80, 180],
-  //     // Interactive props
-  //     pickable: true,
-  //     autoHighlight: true,
-  //     onClick,
-  //     // beforeId: 'watername_ocean' // In interleaved mode, render the layer under map labels
-  //   }),
-  //   new ArcLayer({
-  //     id: 'arcs',
-  //     data: AIR_PORTS,
-  //     dataTransform: d => d.features.filter(f => f.properties.scalerank < 4),
-  //     // Styles
-  //     getSourcePosition: f => [-0.4531566, 51.4709959], // London
-  //     getTargetPosition: f => f.geometry.coordinates,
-  //     getSourceColor: [0, 128, 200],
-  //     getTargetColor: [200, 0, 80],
-  //     getWidth: 1
-  //   })
-  // ];
+  }, [mapRef,showPanel,screenWidth]);
 
   return (
-    <Map
-      initialViewState={INITIAL_VIEW_STATE}
-      mapStyle={MAP_STYLE}
-      style={{
-        width: "100vw",
-        height: "100vh",
-      }}
-    >
-      <NavigationControl position='top-left' />
-      <DeckGLOverlay layers={layers}  />
-    </Map>
+    <>
+      <SidePanel side={"right"}  panelWidth={panelWidth} setPanelWidth={setPanelWidth} setShowPanel={setShowPanel}
+        showPanel={showPanel}
+      />
+      <Map
+        ref={mapRef}
+        initialViewState={INITIAL_VIEW_STATE}
+        mapStyle={MAP_STYLE}
+        mapLib={maplibregl}
+        style={{width: showPanel ? `${screenWidth - panelWidth}px` : "100vw",height: "100vh",transition: applyTransition ? "width 0.5s ease" : ""}}
+      >
+        <DeckGlOverLay />
+        <NavigationControl position="bottom-left" />
+        <DrawControl position="bottom-left"  displayControlsDefault={true}/>
+        <RightPanelLayoutBtn side={"right"}  setShowPanel={setShowPanel} showPanel={showPanel}/>
+      </Map>
+    </>
   );
 }
