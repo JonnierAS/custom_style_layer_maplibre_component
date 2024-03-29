@@ -48,6 +48,14 @@ export default function LayerIcons() {
       {openIconSelect &&
         <ModalSelectIcons setOpenIconSelect={setOpenIconSelect} />
       }
+
+      <div className={` ${styleDivContainer} `}>
+        <label className={styleLabel}>Tamaño del icono</label>
+        <input className={styleInput} type="number" step={0.5}
+          min={0} max={10} value={layerIconProperties.size}
+          onChange={(e) => setLayerIconProperties({ ...layerIconProperties, size: Number.parseFloat(e.target.value)})}/>
+      </div>
+
       <div className={` ${styleDivContainer} `}>
         <label className={styleLabel}>Superposición</label>
         <select className={styleInput} value={layerIconProperties.overlap}
