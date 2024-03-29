@@ -25,7 +25,7 @@ export const LocalStateProvider = ({ children }) => {
   const [layerIconProperties, setLayerIconProperties] = useState({
     color: "black",
     icon: "marker",
-    size: 0.5,
+    size: 1,
     haloBlur: 0,
     haloColor: "white",
     haloWidth: 0,
