@@ -47,7 +47,7 @@ export function RightPanelLayoutBtn({ side, setShowPanel, showPanel }) {
   );
 }
 
-export function SidePanel({ side, panelWidth, setPanelWidth,setShowPanel,showPanel }) {
+export function SidePanel({ side, panelWidth, setPanelWidth,setShowPanel,showPanel,mapRender }) {
   const [isResizing, setIsResizing] = useState(false);
   const [initialX, setInitialX] = useState(0);
  
@@ -114,7 +114,7 @@ export function SidePanel({ side, panelWidth, setPanelWidth,setShowPanel,showPan
           )}
         >
           <div className="">
-              <ContentLayout showPanel={showPanel}
+              <ContentLayout mapRender={mapRender}
               />
           </div>
         </div>

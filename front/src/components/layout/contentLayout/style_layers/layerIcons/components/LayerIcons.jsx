@@ -6,7 +6,7 @@ import { useSelector } from "react-redux";
 import { setLayoutProperties } from "../../services/symbol";
 import ModalSelectIcons from "./ModalSelectIcons";
 
-export default function LayerIcons() {
+export default function LayerIcons({mapRender}) {
   const mapRef = useSelector(state=> state.mapRef)
   const layerName = useSelector(state => state.layerName?.label)
   const { layerIconProperties, setLayerIconProperties,openIconSelect, setOpenIconSelect } = useLocalState();
@@ -48,6 +48,14 @@ export default function LayerIcons() {
       {openIconSelect &&
         <ModalSelectIcons setOpenIconSelect={setOpenIconSelect} />
       }
+
+      <div className={` ${styleDivContainer} `}>
+        <label className={styleLabel}>Tamaño del icono</label>
+        <input className={styleInput} type="number" step={0.5}
+          min={0} max={10} value={layerIconProperties.size}
+          onChange={(e) => setLayerIconProperties({ ...layerIconProperties, size: Number.parseFloat(e.target.value)})}/>
+      </div>
+      {mapRender !== "deckGl" && 
       <div className={` ${styleDivContainer} `}>
         <label className={styleLabel}>Superposición</label>
         <select className={styleInput} value={layerIconProperties.overlap}
@@ -57,6 +65,7 @@ export default function LayerIcons() {
           <option value="cooperative" label="Cooperative" />
         </select>
       </div>
+      }
 
       <div className={` ${styleDivContainer} `}>
         <label className={styleLabel}>Rotación</label>
@@ -64,22 +73,25 @@ export default function LayerIcons() {
           value={layerIconProperties.rotate}
           onChange={(e) =>setLayerIconProperties({...layerIconProperties, rotate: Number.parseInt(e.target.value)})} />
       </div>
+      {mapRender !== "deckGl" && 
+      <>
+        <div className={styleDivContainer}>
+          <label className={styleLabel}>Alineación de tono</label>
+          <select className={styleInput} value={layerIconProperties.pitchAlignment}
+            onChange={(e) =>setLayerIconProperties({...layerIconProperties,pitchAlignment: e.target.value})}>
+            <option value="auto" label="Auto" />
+            <option value="map" label="Map" />
+            <option value="viewport" label="Viewport" />
+          </select>
+        </div>
 
-      <div className={styleDivContainer}>
-        <label className={styleLabel}>Alineación de tono</label>
-        <select className={styleInput} value={layerIconProperties.pitchAlignment}
-          onChange={(e) =>setLayerIconProperties({...layerIconProperties,pitchAlignment: e.target.value})}>
-          <option value="auto" label="Auto" />
-          <option value="map" label="Map" />
-          <option value="viewport" label="Viewport" />
-        </select>
-      </div>
-
-      <div className={styleDivContainer}>
-        <label className={styleLabel}>Adapt on zoom</label>
-        <input type="checkbox" value={layerIconProperties.adaptOnZoom}
-          onChange={(e) => setLayerIconProperties({...layerIconProperties,adaptOnZoom: e.target.checked,})}/>
-      </div>
+        <div className={styleDivContainer}>
+          <label className={styleLabel}>Adapt on zoom</label>
+          <input type="checkbox" value={layerIconProperties.adaptOnZoom}
+            onChange={(e) => setLayerIconProperties({...layerIconProperties,adaptOnZoom: e.target.checked,})}/>
+        </div>
+      </>
+      }
 
       {layerIconProperties.adaptOnZoom && (
         <div className="relative text-[11px]">

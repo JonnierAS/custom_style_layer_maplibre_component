@@ -4,7 +4,7 @@ import { useState } from "react";
 import HexAlphaColor from "../components/HexAlphaColor";
 import { useLocalState } from "../../../../context/CleanLocalState";
 
-export default function ContentlayerStyle({typeOfLayer, styleInput, openModalChangeColor, setOpenModalChangeColor, setLayerPropertyStyle, layersPropertyStyle}) {
+export default function ContentlayerStyle({mapRender,typeOfLayer, styleInput, openModalChangeColor, setOpenModalChangeColor, setLayerPropertyStyle, layersPropertyStyle}) {
   const {capaProperties} = useLocalState()  
   const [textProperties, settextProperties] = useState({
       opentextColor: false,
@@ -77,6 +77,7 @@ export default function ContentlayerStyle({typeOfLayer, styleInput, openModalCha
             />
         </div>
         }
+        {mapRender !== "deckGl" && 
         <div className={styleDivContainer}>
             <label className="font-medium">Desenfoque:</label>
             <input
@@ -88,6 +89,7 @@ export default function ContentlayerStyle({typeOfLayer, styleInput, openModalCha
             onChange={(e)=>setLayerPropertyStyle({...layersPropertyStyle, blurLayer: Number.parseFloat(e.target.value)})}
             />
         </div>
+        }
         <div className={styleDivContainer}>
             <label className="font-medium">Ancho de Linea:</label>
             <input
@@ -100,20 +102,20 @@ export default function ContentlayerStyle({typeOfLayer, styleInput, openModalCha
         </div>
 
         {textProperties.opentextColor && (
-          <HexAlphaColor
+          <HexAlphaColor mapRender={mapRender}
             colorIconState={textProperties.colortextState}
             handleColorChange={handleColorChange}
             setOpenIconColor={settextProperties}
           />
         )}
         {openModalChangeColor.state === true  && (
-          <HexAlphaColor 
+          <HexAlphaColor mapRender={mapRender}
           layersPropertyStyle={layersPropertyStyle} 
           handleColorChange={handleColorChangeColorBase} 
           setOpenModalChangeColor={setOpenModalChangeColor} />
         )}
 
-        {typeOfLayer !== "polygon" && 
+        {typeOfLayer !== "polygon" &&  mapRender !== "deckGl" ?(
         <>
             <div className={styleDivContainer}>
                 <label className="font-medium">Alineación de tono:</label>
@@ -138,6 +140,10 @@ export default function ContentlayerStyle({typeOfLayer, styleInput, openModalCha
                     <option value="viewport" label="Viewport" />
                 </select>
             </div>
+        </>): null
+        }
+        {typeOfLayer !== "polygon" &&
+        <>
             <div className={styleDivContainer}>
             <label className="font-medium">Adapt on zoom</label>
             <input id="circle-adapt-on-zoom"
@@ -148,44 +154,44 @@ export default function ContentlayerStyle({typeOfLayer, styleInput, openModalCha
             }} />
             </div>
             {layersPropertyStyle.adaptOnZoom && (
-         <div className="relative">
-         <div className="flex w-60 justify-between relative left-3 ">
-           <label className="font-medium w-24">
-             Radio del circulo (at zoom 0)
-           </label>
-           <input
-             id="circle-adapt-on-min-zoom-radius"
-             type="number"
-             value={layersPropertyStyle.minZoomRadius}
-             className={`${styleInput} relative left-[-16px]`}
-             onChange={(e) =>
-              setLayerPropertyStyle({...layersPropertyStyle, minZoomRadius: Number.parseFloat(e.target.value)})
-             }
-             step={0.1}
-             min={0.1}
-           ></input>
-         </div>
-         <div className="flex w-46 justify-between relative left-3 ">
-           <label className="font-medium w-24">
-             Radio del circulo (at zoom 24)
-           </label>
-           <input id="circle-adapt-on-max-zoom-radius"
-           type="number"
-           value={layersPropertyStyle.maxZoomRadius}
-           className={`${styleInput}`}
-           onChange={(e) =>
-            setLayerPropertyStyle({...layersPropertyStyle, maxZoomRadius: Number.parseFloat(e.target.value)})
-           }
-           step={0.1} />
-         </div>
-         <p className="mt-4 justify-start">
-         Las propiedades que admiten expresiones de interpolación pueden cambiar cuando
-           Cambie de zoom. Se puede establecer un valor para cada nivel de zoom
-         </p>
-       </div>
-      )}
-        </>
-        }
+            <div className="relative">
+            <div className="flex w-60 justify-between relative left-3 ">
+              <label className="font-medium w-24">
+                Radio del circulo (at zoom 0)
+              </label>
+              <input
+                id="circle-adapt-on-min-zoom-radius"
+                type="number"
+                value={layersPropertyStyle.minZoomRadius}
+                className={`${styleInput} relative left-[-16px]`}
+                onChange={(e) =>
+                  setLayerPropertyStyle({...layersPropertyStyle, minZoomRadius: Number.parseFloat(e.target.value)})
+                }
+                step={0.1}
+                min={0.1}
+              ></input>
+            </div>
+            <div className="flex w-46 justify-between relative left-3 ">
+              <label className="font-medium w-24">
+                Radio del circulo (at zoom 24)
+              </label>
+              <input id="circle-adapt-on-max-zoom-radius"
+              type="number"
+              value={layersPropertyStyle.maxZoomRadius}
+              className={`${styleInput}`}
+              onChange={(e) =>
+                setLayerPropertyStyle({...layersPropertyStyle, maxZoomRadius: Number.parseFloat(e.target.value)})
+              }
+              step={0.1} />
+            </div>
+            <p className="mt-4 justify-start">
+            Las propiedades que admiten expresiones de interpolación pueden cambiar cuando
+              Cambie de zoom. Se puede establecer un valor para cada nivel de zoom
+            </p>
+          </div>
+            )}
+         </>
+         }
         {/* Texto para las capas de poligonos */}
         {typeOfLayer == "polygon" && 
         <>

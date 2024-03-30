@@ -5,16 +5,16 @@ const LocalStateContext = createContext();
 export const LocalStateProvider = ({ children }) => {
  /* sidepanel */
   const [layersPropertyStyle, setLayerPropertyStyle] = useState({
-    colorBase: "#6e548c",
-    lineColor: "#000000",
+    colorBase: "110, 84, 140",
+    lineColor: "110, 84, 140",
     radius: 4,
     blurLayer: 0.2,
     strokeWidth: 1,
     pitchAligment: "map",
     pitchScale: "map",
     adaptOnZoom: false,
-    minZoomRadius: 8,
-    maxZoomRadius: 24,
+    minZoomRadius: 0,
+    maxZoomRadius: 20,
     textColor: "black",
     textSize: 16,
     textAnchor: "center",
@@ -25,7 +25,7 @@ export const LocalStateProvider = ({ children }) => {
   const [layerIconProperties, setLayerIconProperties] = useState({
     color: "black",
     icon: "marker",
-    size: 0.5,
+    size: 1,
     haloBlur: 0,
     haloColor: "white",
     haloWidth: 0,
