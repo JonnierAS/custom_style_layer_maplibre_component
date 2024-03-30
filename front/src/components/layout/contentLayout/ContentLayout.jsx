@@ -3,7 +3,7 @@ import LayerStyle from "./style_layers/LayerStyle/LayerStyle";
 import LayerIconContainer from "./style_layers/layerIcons/LayerIconContainer";
 
 
-  export default function ContentLayout({showPanel}) {
+  export default function ContentLayout({mapFeature}) {
     const [openLayerCircle, setOpenLayerCircle] = useState(true);
     const [openLayerIcon, setOpenLayerIcon] = useState(false);
 
@@ -24,11 +24,11 @@ import LayerIconContainer from "./style_layers/layerIcons/LayerIconContainer";
         </div>
 
         <div className={`${openLayerCircle ? "" : "hidden"}`}>
-          <LayerStyle />
+          <LayerStyle mapFeature={mapFeature} />
         </div>
         
         <div className={`${openLayerIcon ? "": "hidden"}`}>
-          <LayerIconContainer />
+          <LayerIconContainer  mapFeature={mapFeature} />
         </div>
         
       </div>
