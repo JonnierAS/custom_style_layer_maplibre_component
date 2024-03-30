@@ -1,4 +1,4 @@
-import {GeoJsonLayer, IconLayer,TextLayer, ScatterplotLayer} from 'deck.gl';
+import {GeoJsonLayer, IconLayer,MVTLayer,TextLayer, ScatterplotLayer} from 'deck.gl';
 import {MapboxOverlay as DeckOverlay} from '@deck.gl/mapbox';
 import {useControl} from 'react-map-gl/maplibre';
 import { useEffect, useState } from 'react';
@@ -67,7 +67,12 @@ export default function DeckGlOverLay() {
       getAngle: layerIconProperties.rotate,
       visible: layerIconProperties.showIcon
     })
-
+    const pointsLayer = new MVTLayer({
+      data: `${import.meta.env.VITE_URL_GEOSERVER}/${import.meta.env.VITE_WORK_SPACE_GEOSERVER}/ows?service=WFS&version=1.0.0&request=GetFeature&typeName=${import.meta.env.VITE_WORK_SPACE_GEOSERVER}:${layerName}&outputFormat=application/json`,
+      pointRadiusUnits: 'pixels',
+      getRadius: 5,
+      getFillColor: [230, 0, 0]
+    });
     // const textLayer = new TextLayer({
     //   id: 'text-layer',
     //   data: `${import.meta.env.VITE_URL_GEOSERVER}/${import.meta.env.VITE_WORK_SPACE_GEOSERVER}/ows?service=WFS&version=1.0.0&request=GetFeature&typeName=${import.meta.env.VITE_WORK_SPACE_GEOSERVER}:${layerName}&outputFormat=application/json`,
@@ -83,8 +88,9 @@ export default function DeckGlOverLay() {
   return (
     <DeckGLOverlay 
     layers={[
-       geoJsonLayer, 
+      //  geoJsonLayer, 
        iconLayer,
+       pointsLayer
       // textLayer
     ]} 
     interleaved={true}  />

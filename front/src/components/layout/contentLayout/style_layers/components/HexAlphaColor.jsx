@@ -16,7 +16,7 @@ export default function HexAlphaColor({mapRender,colorIconState,setOpenIconColor
             <div className="space-y-1 flex flex-col p-1">
               {mapRender === "deckGl" ? (
                 <RgbaColorPicker
-                color={colorIconState || layersPropertyStyle?.colorBase || layersPropertyStyle?.lineColor || "110, 84, 140"}
+                color={colorIconState || layersPropertyStyle?.colorBaseDeck || layersPropertyStyle?.lineColorDeck || "110, 84, 140"}
                 onChange={handleColorChange}
                 className="color-demographic"
                 style={{ height: "140px", width: "140px" }}
