@@ -43,13 +43,13 @@ export default function DeckGlOverLay() {
       filled: true,
       pointRadiusMinPixels: layersPropertyStyle.radius,
       pointRadiusScale: 5,
-      getFillColor: [layersPropertyStyle?.colorBase.r,layersPropertyStyle?.colorBase.g,layersPropertyStyle?.colorBase.b],
+      getFillColor: [layersPropertyStyle?.colorBaseDeck.r,layersPropertyStyle?.colorBaseDeck.g,layersPropertyStyle?.colorBaseDeck.b],
       getPosition: d => d.coordinates,
       minZoom: layersPropertyStyle.minZoomRadius,
       maxZoom: layersPropertyStyle.maxZoomRadius,
-      getLineColor: [layersPropertyStyle?.lineColor.r,layersPropertyStyle?.lineColor.g,layersPropertyStyle?.lineColor.b],
+      getLineColor: [layersPropertyStyle?.lineColorDeck.r,layersPropertyStyle?.lineColorDeck.g,layersPropertyStyle?.lineColorDeck.b],
       lineWidthMinPixels: layersPropertyStyle?.strokeWidth,
-      opacity: layersPropertyStyle?.colorBase.a || 0.8,
+      opacity: layersPropertyStyle?.colorBaseDeck.a || 0.8,
       visible: !layerIconProperties.showIcon
     })
 
