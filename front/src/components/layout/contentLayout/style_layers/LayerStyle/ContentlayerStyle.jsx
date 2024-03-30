@@ -12,10 +12,10 @@ export default function ContentlayerStyle({mapRender,typeOfLayer, styleInput, op
     });
     const handleColorChangeColorBase = (color) => {
       if(openModalChangeColor.type === "base"){
-        setLayerPropertyStyle({...layersPropertyStyle, colorBase: color})
+        setLayerPropertyStyle({...layersPropertyStyle, colorBase: color, colorBaseDeck: color})
       }
       if(openModalChangeColor.type === "line"){
-        setLayerPropertyStyle({...layersPropertyStyle, lineColor: color})
+        setLayerPropertyStyle({...layersPropertyStyle, lineColor: color, lineColorDeck: color})
       }
     };
     const openModalChangeColorHandler = (typeColor) => {
