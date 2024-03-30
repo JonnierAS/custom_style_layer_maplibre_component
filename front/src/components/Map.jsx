@@ -54,7 +54,7 @@ export default function MapContainer() {
         panelWidth={panelWidth}
         setPanelWidth={setPanelWidth}
         setShowPanel={setShowPanel}
-        showPanel={showPanel} mapFeature={"mapLibre"}
+        showPanel={showPanel} mapRender={"mapLibre"}
       />
       <Map
         ref={mapRef}

@@ -6,7 +6,7 @@ import axios from 'axios';
 import xmljs from 'xml-js';
 import { useLocalState } from '../../../../context/CleanLocalState';
 
-export default function LayerIconContainer({mapFeature}) {
+export default function LayerIconContainer({mapRender}) {
   const {setCapaProperties}=useLocalState()
   const layerName = useSelector(state => state.layerName?.label)
   useEffect(() => {
@@ -31,8 +31,8 @@ export default function LayerIconContainer({mapFeature}) {
   }, [layerName])
   return (
     <div>
-        <LayerIcons mapFeature={mapFeature} />
-        {mapFeature !== "deckGl" &&
+        <LayerIcons mapRender={mapRender} />
+        {mapRender !== "deckGl" &&
           <TextStyleIcon />
         }
     </div>

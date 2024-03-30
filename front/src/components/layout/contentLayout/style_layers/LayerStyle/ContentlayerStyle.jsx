@@ -4,7 +4,7 @@ import { useState } from "react";
 import HexAlphaColor from "../components/HexAlphaColor";
 import { useLocalState } from "../../../../context/CleanLocalState";
 
-export default function ContentlayerStyle({mapFeature,typeOfLayer, styleInput, openModalChangeColor, setOpenModalChangeColor, setLayerPropertyStyle, layersPropertyStyle}) {
+export default function ContentlayerStyle({mapRender,typeOfLayer, styleInput, openModalChangeColor, setOpenModalChangeColor, setLayerPropertyStyle, layersPropertyStyle}) {
   const {capaProperties} = useLocalState()  
   const [textProperties, settextProperties] = useState({
       opentextColor: false,
@@ -77,7 +77,7 @@ export default function ContentlayerStyle({mapFeature,typeOfLayer, styleInput, o
             />
         </div>
         }
-        {mapFeature !== "deckGl" && 
+        {mapRender !== "deckGl" && 
         <div className={styleDivContainer}>
             <label className="font-medium">Desenfoque:</label>
             <input
@@ -102,20 +102,20 @@ export default function ContentlayerStyle({mapFeature,typeOfLayer, styleInput, o
         </div>
 
         {textProperties.opentextColor && (
-          <HexAlphaColor mapFeature={mapFeature}
+          <HexAlphaColor mapRender={mapRender}
             colorIconState={textProperties.colortextState}
             handleColorChange={handleColorChange}
             setOpenIconColor={settextProperties}
           />
         )}
         {openModalChangeColor.state === true  && (
-          <HexAlphaColor mapFeature={mapFeature}
+          <HexAlphaColor mapRender={mapRender}
           layersPropertyStyle={layersPropertyStyle} 
           handleColorChange={handleColorChangeColorBase} 
           setOpenModalChangeColor={setOpenModalChangeColor} />
         )}
 
-        {typeOfLayer !== "polygon" &&  mapFeature !== "deckGl" ?(
+        {typeOfLayer !== "polygon" &&  mapRender !== "deckGl" ?(
         <>
             <div className={styleDivContainer}>
                 <label className="font-medium">Alineación de tono:</label>

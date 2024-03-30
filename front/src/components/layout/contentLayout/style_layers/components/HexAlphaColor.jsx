@@ -3,7 +3,7 @@ import {
     HexAlphaColorPicker,RgbaColorPicker
   } from "react-colorful";
 
-export default function HexAlphaColor({mapFeature,colorIconState,setOpenIconColor,layersPropertyStyle, handleColorChange, setOpenModalChangeColor}) {
+export default function HexAlphaColor({mapRender,colorIconState,setOpenIconColor,layersPropertyStyle, handleColorChange, setOpenModalChangeColor}) {
   
   const handleClick = ()=>{
     setOpenIconColor 
@@ -14,7 +14,7 @@ export default function HexAlphaColor({mapFeature,colorIconState,setOpenIconColo
   return (
     <div className="absolute z-[1000] bg-white w-[160px] h-[220px] rounded-lg p-1 flex items-center justify-center text-xs right-5 border-2">
             <div className="space-y-1 flex flex-col p-1">
-              {mapFeature === "deckGl" ? (
+              {mapRender === "deckGl" ? (
                 <RgbaColorPicker
                 color={colorIconState || layersPropertyStyle?.colorBase || layersPropertyStyle?.lineColor || "110, 84, 140"}
                 onChange={handleColorChange}

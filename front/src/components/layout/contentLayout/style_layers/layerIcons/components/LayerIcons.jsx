@@ -6,7 +6,7 @@ import { useSelector } from "react-redux";
 import { setLayoutProperties } from "../../services/symbol";
 import ModalSelectIcons from "./ModalSelectIcons";
 
-export default function LayerIcons({mapFeature}) {
+export default function LayerIcons({mapRender}) {
   const mapRef = useSelector(state=> state.mapRef)
   const layerName = useSelector(state => state.layerName?.label)
   const { layerIconProperties, setLayerIconProperties,openIconSelect, setOpenIconSelect } = useLocalState();
@@ -55,7 +55,7 @@ export default function LayerIcons({mapFeature}) {
           min={0} max={10} value={layerIconProperties.size}
           onChange={(e) => setLayerIconProperties({ ...layerIconProperties, size: Number.parseFloat(e.target.value)})}/>
       </div>
-      {mapFeature !== "deckGl" && 
+      {mapRender !== "deckGl" && 
       <div className={` ${styleDivContainer} `}>
         <label className={styleLabel}>Superposición</label>
         <select className={styleInput} value={layerIconProperties.overlap}
@@ -73,7 +73,7 @@ export default function LayerIcons({mapFeature}) {
           value={layerIconProperties.rotate}
           onChange={(e) =>setLayerIconProperties({...layerIconProperties, rotate: Number.parseInt(e.target.value)})} />
       </div>
-      {mapFeature !== "deckGl" && 
+      {mapRender !== "deckGl" && 
       <>
         <div className={styleDivContainer}>
           <label className={styleLabel}>Alineación de tono</label>

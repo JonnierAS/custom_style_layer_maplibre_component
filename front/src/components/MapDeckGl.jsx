@@ -36,7 +36,7 @@ export default function MapContainerDeckGl() {
   return (
     <>
       <SidePanel side={"right"}  panelWidth={panelWidth} setPanelWidth={setPanelWidth} setShowPanel={setShowPanel}
-        showPanel={showPanel} mapFeature={"deckGl"}
+        showPanel={showPanel} mapRender={"deckGl"}
       />
       <Map
         ref={mapRef}
