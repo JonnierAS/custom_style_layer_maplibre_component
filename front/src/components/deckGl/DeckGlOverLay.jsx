@@ -1,4 +1,4 @@
-import {GeoJsonLayer, IconLayer, ScatterplotLayer} from 'deck.gl';
+import {GeoJsonLayer, IconLayer,TextLayer, ScatterplotLayer} from 'deck.gl';
 import {MapboxOverlay as DeckOverlay} from '@deck.gl/mapbox';
 import {useControl} from 'react-map-gl/maplibre';
 import { useEffect, useState } from 'react';
@@ -16,15 +16,14 @@ function DeckGLOverlay(props) {
     marker: {x: 0, y: 0, width: 128, height: 128, mask: true}
   };
 export default function DeckGlOverLay() {
-    const {layerIconProperties} = useLocalState()
+    const {layerIconProperties, layersPropertyStyle} = useLocalState()
     const layerName = useSelector(state => state.layerName?.label)
     const [data, setData] = useState([]);
 
     useEffect(() => {
         if(!layerName) return;
       fetchData();
-    }, [layerName, layerIconProperties]);
-  
+    }, [layerName,layerIconProperties?.showIcon]);
     const fetchData = async () => {
       try {
         const response = await fetch(`${import.meta.env.VITE_URL_GEOSERVER}/${import.meta.env.VITE_WORK_SPACE_GEOSERVER}/ows?service=WFS&version=1.0.0&request=GetFeature&typeName=${import.meta.env.VITE_WORK_SPACE_GEOSERVER}:${layerName}&outputFormat=application/json`);
@@ -37,35 +36,57 @@ export default function DeckGlOverLay() {
         console.error('Error fetching data:', error);
       }
     };
-    const layers = [
-        new GeoJsonLayer({
-          id: 'Asesoras',
-          data: `${import.meta.env.VITE_URL_GEOSERVER}/${import.meta.env.VITE_WORK_SPACE_GEOSERVER}/ows?service=WFS&version=1.0.0&request=GetFeature&typeName=${import.meta.env.VITE_WORK_SPACE_GEOSERVER}:${layerName}&outputFormat=application/json`,
-          filled: true,
-          pointRadiusMinPixels: 2,
-          pointRadiusScale: 5,
-          getFillColor: [200, 0, 80, 180],
-          getPosition: d => d.coordinates,
-          minZoom: 0,
-          maxZoom: 20,
-          getLineColor: [255, 255, 255],
-          lineWidthMinPixels: 1,
-        }),
-        new IconLayer({
-          id: 'icon-layer',
-          data: data,
-          pickable: true,
-          iconAtlas: 'https://demotiles.maplibre.org/styles/osm-bright-gl-style/sprite.png',
-          iconMapping: iconData,
-          getIcon: d => layerIconProperties.showIcon && layerIconProperties.icon,
-          sizeScale: layerIconProperties.size,
-          getPosition: d => d.coordinates,
-          getSize: d => 5,
-          getColor: d => [Math.sqrt(d.exits), 240, 0],
-          billboard: true
-        })
-      ];
+
+    const geoJsonLayer = new GeoJsonLayer({
+      id: 'Asesoras',
+      data: `${import.meta.env.VITE_URL_GEOSERVER}/${import.meta.env.VITE_WORK_SPACE_GEOSERVER}/ows?service=WFS&version=1.0.0&request=GetFeature&typeName=${import.meta.env.VITE_WORK_SPACE_GEOSERVER}:${layerName}&outputFormat=application/json`,
+      filled: true,
+      pointRadiusMinPixels: layersPropertyStyle.radius,
+      pointRadiusScale: 5,
+      getFillColor: [layersPropertyStyle?.colorBase.r,layersPropertyStyle?.colorBase.g,layersPropertyStyle?.colorBase.b],
+      getPosition: d => d.coordinates,
+      minZoom: layersPropertyStyle.minZoomRadius,
+      maxZoom: layersPropertyStyle.maxZoomRadius,
+      getLineColor: [layersPropertyStyle?.lineColor.r,layersPropertyStyle?.lineColor.g,layersPropertyStyle?.lineColor.b],
+      lineWidthMinPixels: layersPropertyStyle?.strokeWidth,
+      opacity: layersPropertyStyle?.colorBase.a || 0.8,
+      visible: !layerIconProperties.showIcon
+    })
+
+    const iconLayer = new IconLayer({
+      id: 'icon-layer',
+      data: data,
+      pickable: true,
+      iconAtlas: 'https://demotiles.maplibre.org/styles/osm-bright-gl-style/sprite.png',
+      iconMapping: iconData,
+      getIcon: d => layerIconProperties.icon,
+      sizeScale: layerIconProperties.size,
+      getPosition: d => d.coordinates,
+      getSize: 5,
+      billboard: true,
+      getAngle: layerIconProperties.rotate,
+      visible: layerIconProperties.showIcon
+    })
+
+    // const textLayer = new TextLayer({
+    //   id: 'text-layer',
+    //   data: `${import.meta.env.VITE_URL_GEOSERVER}/${import.meta.env.VITE_WORK_SPACE_GEOSERVER}/ows?service=WFS&version=1.0.0&request=GetFeature&typeName=${import.meta.env.VITE_WORK_SPACE_GEOSERVER}:${layerName}&outputFormat=application/json`,
+    //   pickable: true,
+    //   getPosition: d => d.coordinates,
+    //   getText: d => "example",
+    //   getSize: 12,
+    //   getAngle: 0,
+    //   getTextAnchor: 'middle',
+    //   getAlignmentBaseline: 'center'
+    // });
+
   return (
-    <DeckGLOverlay layers={layers} interleaved={true}  />
+    <DeckGLOverlay 
+    layers={[
+       geoJsonLayer, 
+       iconLayer,
+      // textLayer
+    ]} 
+    interleaved={true}  />
   )
 }
