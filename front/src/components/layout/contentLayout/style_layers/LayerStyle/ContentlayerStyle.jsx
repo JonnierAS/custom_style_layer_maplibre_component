@@ -117,7 +117,7 @@ export default function ContentlayerStyle({mapRender,typeOfLayer, styleInput, op
             <div className={styleDivContainer}>
             <label className="font-medium">Adapt on zoom</label>
             <input type="checkbox" value={layersPropertyStyle.adaptOnZoom}
-            onChange={(e) => setLayerPropertyStyle({...layersPropertyStyle, adaptOnZoom: e.target.checked})}/>
+            onChange={(e) => setLayerPropertyStyle({...layersPropertyStyle, adaptOnZoom: e.target.checked})} />
             </div>
             {layersPropertyStyle.adaptOnZoom && (
             <div className="relative">
@@ -125,14 +125,15 @@ export default function ContentlayerStyle({mapRender,typeOfLayer, styleInput, op
               <label className="font-medium w-24">Radio del circulo (at zoom 0)</label>
               <input type="number" value={layersPropertyStyle.minZoomRadius} className={`${styleInput} relative left-[-16px]`}
                 onChange={(e) => setLayerPropertyStyle({...layersPropertyStyle, minZoomRadius: Number.parseFloat(e.target.value)})}
-                step={0.1} min={0.1}
+                step={0.5} min={0}
               />
             </div>
 
             <div className="flex w-46 justify-between relative left-3 ">
               <label className="font-medium w-24"> Radio del circulo (at zoom 24) </label>
-              <input type="number" value={layersPropertyStyle.maxZoomRadius} className={styleInput} step={0.1} />
+              <input type="number" value={layersPropertyStyle.maxZoomRadius} className={styleInput} step={0.5}
               onChange={(e) => setLayerPropertyStyle({...layersPropertyStyle, maxZoomRadius: Number.parseFloat(e.target.value)})}
+              />
             </div>
             <p className="mt-4 justify-start">
             Las propiedades que admiten expresiones de interpolación pueden cambiar cuando

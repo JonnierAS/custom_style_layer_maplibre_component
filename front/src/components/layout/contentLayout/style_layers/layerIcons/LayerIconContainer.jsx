@@ -14,7 +14,7 @@ export default function LayerIconContainer({mapRender}) {
   useEffect(() => {
     const handleGetProperties = async()=>{
       try {
-        if(!layerName) return;
+        if(!layerName || layerName === "Sin Capa") return;
         const proxyServerUrl = import.meta.env.VITE_URL_GEOSERVER;
         const wfsUrl = `${proxyServerUrl}/wfs?request=DescribeFeatureType&service=WFS&version=2.0.0&typeName=${layerName}`;
         
