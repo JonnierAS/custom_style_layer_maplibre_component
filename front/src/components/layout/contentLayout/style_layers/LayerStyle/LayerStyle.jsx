@@ -6,6 +6,7 @@ import ContentlayerStyle from "./ContentlayerStyle";
 import { useSelector } from "react-redux";
 import { setPaintProperties } from "../services/symbol";
 import { Link } from "react-router-dom";
+import StyleManageContainer from "../components/StyleManageContainer";
 
 const styleInput = "absolute w-28 top-[-10px] left-28 py-1 px-2 text-sm rounded outline-none focus-visible:ring-1 focus-visible:ring-offset-1 focus-visible:ring-purple-500 dark:focus-visible:ring-purple-500 dark:focus-visible:ring-offset-gray-900 border border-gray-200 dark:border-gray-500 shadow-sm focus-visible:border-gray-200 dark:focus-visible:border-gray-300 hover:border-gray-300 dark:hover:border-gray-300 block dark:bg-transparent dark:text-gray-100"
 function LayerStyle({mapRender}) {
@@ -36,7 +37,7 @@ function LayerStyle({mapRender}) {
 
   return (
     <div className="text-center relative top-5">
-      <div className="flex justify-center">
+      <div className="flex justify-center text-center items-center gap-1">
         <SelectLayers />
         <Link to={window.location.pathname === "/mapLibre" ? "/": "/mapLibre"}>
           <button className="tooltip border rounded p-1" >
@@ -44,6 +45,7 @@ function LayerStyle({mapRender}) {
             <span className="tooltiptextup">Cambiar de Mapa</span>  
           </button>
         </Link>
+        <StyleManageContainer />
       </div>
 
       {layerName && layerName !== "Sin Capa" ? (
