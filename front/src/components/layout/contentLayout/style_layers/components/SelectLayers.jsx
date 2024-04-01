@@ -17,24 +17,13 @@ function SelectLayers() {
   useEffect(() => {
     const fetchLayers = async () => {
       try {
-        const proxyServerUrl = import.meta.env.VITE_URL_GEOSERVER;
-        const capabilitiesUrl = `${proxyServerUrl}/wms?request=GetCapabilities&service=WMS&version=1.3.0&namespace=${
-          import.meta.env.VITE_WORK_SPACE_GEOSERVER
-        }`;
+        const capabilitiesUrl = `${import.meta.env.VITE_URL_GEOSERVER}/wms?request=GetCapabilities&service=WMS&version=1.3.0&namespace=${import.meta.env.VITE_WORK_SPACE_GEOSERVER}`;
         const response = await axios.get(capabilitiesUrl);
+        const result = JSON.parse(xmljs.xml2json(response.data, { compact: true, spaces: 5, depth: 30 }));
 
-        const result = JSON.parse(
-          xmljs.xml2json(response.data, { compact: true, spaces: 5, depth: 30 })
-        );
         const layersArray = result.WMS_Capabilities.Capability.Layer.Layer.map(
           (layer) => {
-            if (
-              layer &&
-              layer.Name &&
-              layer.Name._text &&
-              layer.Title &&
-              layer.Title._text
-            ) {
+            if (layer && layer.Name && layer.Name._text && layer.Title && layer.Title._text) {
               return {
                 id: layer.Name._text,
                 value: layer.Name._text,
@@ -44,7 +33,7 @@ function SelectLayers() {
               return null;
             }
           }
-        ).filter(layer => layer && layer.label !== null && layer.label !== undefined && layer.value !== ""); // Modificado aquí
+        ).filter(layer => layer && layer.label !== null && layer.label !== undefined && layer.value !== "");
         setLayers(layersArray);
       } catch (error) {
         console.error("Error al obtener las capas de GeoServer:", error);
