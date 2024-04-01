@@ -52,7 +52,7 @@ export default function RenderMapLibreLayers() {
             />
           </Source>
           <Source key={`${layerName}-`} id={`${layerName}-`} type="vector" scheme="tms" name={layerName} tiles={[urlTile]}>
-            {!layerIconProperties.showIcon && 
+          
             <Layer
               type="circle"
               source={layerName}
@@ -72,7 +72,9 @@ export default function RenderMapLibreLayers() {
                 "circle-pitch-alignment": layersPropertyStyle.pitchAligment,
                 "circle-pitch-scale": layersPropertyStyle.pitchScale
               }}
-            />}
+              maxzoom={layerIconProperties.showIcon ? 12 : 24}
+            />
+          
             {layerIconProperties.showIcon && 
               <Layer
                 type="symbol"
@@ -103,6 +105,7 @@ export default function RenderMapLibreLayers() {
                   "icon-halo-color": layerIconProperties.haloColor || "#000000",
                   "text-color": layerIconProperties.textColor,
                 }}
+                minzoom={11}
               />
             }
           </Source>
