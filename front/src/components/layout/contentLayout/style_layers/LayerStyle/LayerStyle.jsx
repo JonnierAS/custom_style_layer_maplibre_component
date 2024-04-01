@@ -11,9 +11,7 @@ const styleInput = "absolute w-28 top-[-10px] left-28 py-1 px-2 text-sm rounded 
 function LayerStyle({mapRender}) {
   const mapRef = useSelector(state=> state.mapRef)
   const layerName = useSelector(state => state.layerName?.label)
-    const { openModalChangeColor, setOpenModalChangeColor,
-        layersPropertyStyle, setLayerPropertyStyle
-      } = useLocalState();
+    const { openModalChangeColor, setOpenModalChangeColor, layersPropertyStyle, setLayerPropertyStyle } = useLocalState();
       const [typeOfLayer, setTypeOfLayer] = useState(null)
 
       const hanldeInputTypeChange = (type)=>{
@@ -26,24 +24,9 @@ function LayerStyle({mapRender}) {
         if (iconMap) {
           setPaintProperties(iconMap, layerId, {
             "circle-radius": layersPropertyStyle.adaptOnZoom
-              ? [
-                  "interpolate",
-                  ["linear"],
-                  ["zoom"],
-                  0,
-                  [
-                    "case",
-                    ["boolean", ["feature-state", "isActive"], false],
-                    50,
-                    layersPropertyStyle.minZoomRadius,
-                  ],
-                  24,
-                  [
-                    "case",
-                    ["boolean", ["feature-state", "isActive"], false],
-                    50,
-                    layersPropertyStyle.maxZoomRadius,
-                  ],
+              ? ["interpolate",["linear"], ["zoom"], 0,
+                  ["case", ["boolean", ["feature-state", "isActive"], false],50, layersPropertyStyle.minZoomRadius], 24,
+                  ["case",["boolean", ["feature-state", "isActive"], false], 50,layersPropertyStyle.maxZoomRadius],
                 ]
               : ["case", ["boolean", ["feature-state", "isActive"], false], 50, 5],
           });
@@ -61,13 +44,10 @@ function LayerStyle({mapRender}) {
             <span className="tooltiptextup">Cambiar de Mapa</span>  
           </button>
         </Link>
-        
       </div>
+
       {layerName && layerName !== "Sin Capa" ? (
-      <select 
-      onChange={(e)=>hanldeInputTypeChange(e.target.value)}
-      className={`${styleInput} w-32 relative top-[10px]`}
-      > 
+      <select onChange={(e)=>hanldeInputTypeChange(e.target.value)} className={`${styleInput} w-32 relative top-[10px]`}> 
         <option value="null">Tipo de capa</option>
         <option value="polygon">Poligonos</option>
         <option value="circle">Puntos</option>
