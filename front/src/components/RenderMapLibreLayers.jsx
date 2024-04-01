@@ -94,7 +94,7 @@ export default function RenderMapLibreLayers() {
                   "text-size": layerIconProperties.textSize,
                   "text-transform": layerIconProperties.textTransform,
                   "text-offset":  [layerIconProperties.textOffsetX,layerIconProperties.textOffsetY],
-                  "text-allow-overlap": layerIconProperties.textOverlap,
+                  "text-allow-overlap": layerIconProperties.textOverlap == true,
                   "text-rotate": layerIconProperties.textRotate,
                   "text-anchor": layerIconProperties.textAnchor,
                   "text-optional": layerIconProperties.textOptional
