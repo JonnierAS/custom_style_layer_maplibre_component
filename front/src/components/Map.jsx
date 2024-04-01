@@ -19,7 +19,7 @@ const ZOOM = 12;
 export default function MapContainer() {
   const mapRef = useRef(null);
   const dispatch = useDispatch()
-  const {showPanel, setShowPanel,applyTransition} = useLocalState()
+  const {showPanel, setShowPanel,applyTransition, layerIconProperties} = useLocalState()
   const [panelWidth, setPanelWidth] = useState(360);
   const [screenWidth, setScreenWidth] = useState("100vw");
   const [mapType, setMapType] = useState("https://carto.com/help/images/building-maps/basemaps/voyager_labels.png");
@@ -40,7 +40,7 @@ export default function MapContainer() {
     if (mapRef.current && layerName){
       mapRef.current.setSprite("https://demotiles.maplibre.org/styles/osm-bright-gl-style/sprite")
     }
-  }, [mapRef]);
+  }, [mapRef,layerIconProperties]);
   return (
     <>
       <SidePanel side={"right"} panelWidth={panelWidth} setPanelWidth={setPanelWidth} setShowPanel={setShowPanel} showPanel={showPanel} mapRender={"mapLibre"}/>
