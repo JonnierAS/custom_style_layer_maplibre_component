@@ -15,7 +15,7 @@ export default function LayerIcons({mapRender}) {
     if(layerName === "Sin Capa" || !mapRef?.current  || !layerName) return;
     const iconMap = mapRef.current.getMap();
     const layerId = `${layerName}-icon`;
-    if (iconMap) {
+    if (iconMap && layerIconProperties.adaptOnZoom) {
       setLayoutProperties(iconMap, layerId, {
         "icon-size": layerIconProperties.adaptOnZoom
           ? ["interpolate", ["linear"], ["zoom"], 0, layerIconProperties.minZoomIconSize, 24, layerIconProperties.maxZoomIconSize]
