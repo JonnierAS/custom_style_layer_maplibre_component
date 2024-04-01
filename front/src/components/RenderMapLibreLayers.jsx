@@ -85,25 +85,25 @@ export default function RenderMapLibreLayers() {
                 filter={["==", "$type", "Point"]}
                 layout={{
                   "icon-image": layerIconProperties.icon,
-                  "icon-overlap": layerIconProperties.overlap,
-                  "icon-rotate": layerIconProperties.rotate,
-                  "icon-pitch-alignment": layerIconProperties.pitchAlignment,
-                  "icon-size": layerIconProperties.size,
-                  "text-field": layerIconProperties.textOptional ? `{${layerIconProperties.textField}}`: null,
+                  "icon-overlap": layerIconProperties.iconOverlap,
+                  "icon-rotate": layerIconProperties.iconRotate,
+                  "icon-pitch-alignment": layerIconProperties.iconPitchAlignment,
+                  "icon-size": layerIconProperties.iconSize,
+                  "text-field": layerIconProperties.iconTextOptional ? `{${layerIconProperties.iconTextField}}`: null,
                   "text-font": ["Open Sans Regular"],
-                  "text-size": layerIconProperties.textSize,
-                  "text-transform": layerIconProperties.textTransform,
-                  "text-offset":  [layerIconProperties.textOffsetX,layerIconProperties.textOffsetY],
-                  "text-allow-overlap": layerIconProperties.textOverlap == true,
-                  "text-rotate": layerIconProperties.textRotate,
-                  "text-anchor": layerIconProperties.textAnchor,
-                  "text-optional": layerIconProperties.textOptional
+                  "text-size": layerIconProperties.iconTextSize,
+                  "text-transform": layerIconProperties.iconTextTransform,
+                  "text-offset":  [layerIconProperties.iconTextOffsetX,layerIconProperties.iconTextOffsetY],
+                  "text-allow-overlap": layerIconProperties.iconTextOverlap == true,
+                  "text-rotate": layerIconProperties.iconTextRotate,
+                  "text-anchor": layerIconProperties.iconTextAnchor,
+                  "text-optional": layerIconProperties.iconTextOptional
                 }}
                 paint={{
-                  "icon-color": layerIconProperties.color || "#6e548c",
-                  "icon-halo-width": layerIconProperties.haloWidth|| 1,
-                  "icon-halo-color": layerIconProperties.haloColor || "#000000",
-                  "text-color": layerIconProperties.textColor,
+                  "icon-color": layerIconProperties.iconColor || "#6e548c",
+                  "icon-halo-width": layerIconProperties.iconHaloWidth|| 1,
+                  "icon-halo-color": layerIconProperties.iconHaloColor || "#000000",
+                  "text-color": layerIconProperties.iconTextColor,
                 }}
                 minzoom={11}
               />
