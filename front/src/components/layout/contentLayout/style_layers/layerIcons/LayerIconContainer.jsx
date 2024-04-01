@@ -9,12 +9,12 @@ import { useLocalState } from '../../../../context/CleanLocalState';
 export default function LayerIconContainer({mapRender}) {
   const {setCapaProperties}=useLocalState()
   const layerName = useSelector(state => state.layerName?.label)
+
+  /* Se encarga de obtener las propiedades de las capas para mostrarlas en el select de etiquetas */
   useEffect(() => {
     const handleGetProperties = async()=>{
       try {
-        if(!layerName){
-          return;
-        }
+        if(!layerName) return;
         const proxyServerUrl = import.meta.env.VITE_URL_GEOSERVER;
         const wfsUrl = `${proxyServerUrl}/wfs?request=DescribeFeatureType&service=WFS&version=2.0.0&typeName=${layerName}`;
         
@@ -32,9 +32,7 @@ export default function LayerIconContainer({mapRender}) {
   return (
     <div>
         <LayerIcons mapRender={mapRender} />
-        {mapRender !== "deckGl" &&
-          <TextStyleIcon />
-        }
+        {mapRender !== "deckGl" &&<TextStyleIcon /> }
     </div>
   )
 }
