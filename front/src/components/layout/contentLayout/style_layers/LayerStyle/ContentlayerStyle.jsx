@@ -76,6 +76,7 @@ export default function ContentlayerStyle({mapRender,typeOfLayer, styleInput, op
 
         {textProperties.opentextColor && (
           <HexAlphaColor mapRender={mapRender}
+           openModalChangeColor={openModalChangeColor}
             colorIconState={textProperties.colortextState}
             handleColorChange={handleColorChange}
             setOpenIconColor={settextProperties}
@@ -83,6 +84,7 @@ export default function ContentlayerStyle({mapRender,typeOfLayer, styleInput, op
         )}
         {openModalChangeColor.state === true  && (
           <HexAlphaColor mapRender={mapRender}
+          openModalChangeColor={openModalChangeColor}
           layersPropertyStyle={layersPropertyStyle} 
           handleColorChange={handleColorChangeColorBase} 
           setOpenModalChangeColor={setOpenModalChangeColor} />
