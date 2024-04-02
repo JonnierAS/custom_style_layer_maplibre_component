@@ -15,10 +15,10 @@ export default function LayerIcons({mapRender}) {
     if(layerName === "Sin Capa" || !mapRef?.current  || !layerName) return;
     const iconMap = mapRef.current.getMap();
     const layerId = `${layerName}-icon`;
-    if (iconMap && layerIconProperties.adaptOnZoom) {
+    if (iconMap && layerIconProperties.iconAdaptOnZoom) {
       setLayoutProperties(iconMap, layerId, {
-        "icon-size": layerIconProperties.adaptOnZoom
-          ? ["interpolate", ["linear"], ["zoom"], 0, layerIconProperties.minZoomIconSize, 24, layerIconProperties.maxZoomIconSize]
+        "icon-size": layerIconProperties.iconAdaptOnZoom
+          ? ["interpolate", ["linear"], ["zoom"], 0, layerIconProperties.iconMinZoomIconSize, 24, layerIconProperties.iconMaxZoomIconSize]
           : 1,
       });
     }
@@ -48,14 +48,14 @@ export default function LayerIcons({mapRender}) {
 
       <div className={` ${styleDivContainer} `}>
         <label className={styleLabel}>Tamaño del icono</label>
-        <input className={styleInput} type="number" step={0.5} min={0} max={10} value={layerIconProperties.size}
-          onChange={(e) => setLayerIconProperties({ ...layerIconProperties, size: Number.parseFloat(e.target.value)})}/>
+        <input className={styleInput} type="number" step={0.5} min={0} max={10} value={layerIconProperties.iconSize}
+          onChange={(e) => setLayerIconProperties({ ...layerIconProperties, iconSize: Number.parseFloat(e.target.value)})}/>
       </div>
 
       {mapRender !== "deckGl" && 
       <div className={` ${styleDivContainer} `}>
         <label className={styleLabel}>Superposición</label>
-        <select className={styleInput} value={layerIconProperties.overlap} onChange={(e) => setLayerIconProperties({...layerIconProperties, overlap: e.target.value})} >
+        <select className={styleInput} value={layerIconProperties.iconOverlap} onChange={(e) => setLayerIconProperties({...layerIconProperties, iconOverlap: e.target.value})} >
           <option value="never" label="Never" />
           <option value="always" label="Always" />
           <option value="cooperative" label="Cooperative" />
@@ -65,15 +65,15 @@ export default function LayerIcons({mapRender}) {
 
       <div className={` ${styleDivContainer} `}>
         <label className={styleLabel}>Rotación</label>
-        <input type="number" min={0}  max={360}  step={45} className={styleInput} value={layerIconProperties.rotate}
-          onChange={(e) =>setLayerIconProperties({...layerIconProperties, rotate: Number.parseInt(e.target.value)})} />
+        <input type="number" min={0}  max={360}  step={45} className={styleInput} value={layerIconProperties.iconRotate}
+          onChange={(e) =>setLayerIconProperties({...layerIconProperties, iconRotate: Number.parseInt(e.target.value)})} />
       </div>
 
       {mapRender !== "deckGl" && 
       <>
         <div className={styleDivContainer}>
           <label className={styleLabel}>Alineación de tono</label>
-          <select className={styleInput} value={layerIconProperties.pitchAlignment} onChange={(e) =>setLayerIconProperties({...layerIconProperties,pitchAlignment: e.target.value})}>
+          <select className={styleInput} value={layerIconProperties.iconPitchAlignment} onChange={(e) =>setLayerIconProperties({...layerIconProperties,iconPitchAlignment: e.target.value})}>
             <option value="auto" label="Auto" />
             <option value="map" label="Map" />
             <option value="viewport" label="Viewport" />
@@ -82,24 +82,24 @@ export default function LayerIcons({mapRender}) {
 
         <div className={styleDivContainer}>
           <label className={styleLabel}>Adapt on zoom</label>
-          <input type="checkbox" value={layerIconProperties.adaptOnZoom} onChange={(e) => setLayerIconProperties({...layerIconProperties,adaptOnZoom: e.target.checked,})}/>
+          <input type="checkbox" value={layerIconProperties.iconAdaptOnZoom} onChange={(e) => setLayerIconProperties({...layerIconProperties,iconAdaptOnZoom: e.target.checked,})}/>
         </div>
       </>
       }
 
-      {layerIconProperties.adaptOnZoom && (
+      {layerIconProperties.iconAdaptOnZoom && (
         <div className="relative text-[11px]">
           <div className="flex w-60 justify-between relative left-4">
             <label className="font-medium w-24">Tamaño del icono (at zoom 0)</label>
-            <input type="number" value={layerIconProperties.minZoomIconSize} className={`${styleInput} relative left-[-5px]`}
-              onChange={(e) =>setLayerIconProperties({...layerIconProperties, minZoomIconSize: Number.parseFloat(e.target.value)})}
+            <input type="number" value={layerIconProperties.iconMinZoomIconSize} className={`${styleInput} relative left-[-5px]`}
+              onChange={(e) =>setLayerIconProperties({...layerIconProperties, iconMinZoomIconSize: Number.parseFloat(e.target.value)})}
               step={0.1}min={0.1} />
           </div>
 
           <div className="flex w-46 justify-between relative top-3 left-3 ">
             <label className="font-medium w-24">Tamaño del icono (at zoom 24)</label>
-            <input type="number" value={layerIconProperties.maxZoomIconSize} className={`${styleInput}`} step={0.1} 
-              onChange={(e) =>setLayerIconProperties({...layerIconProperties, maxZoomIconSize: Number.parseFloat(e.target.value)})}/>
+            <input type="number" value={layerIconProperties.iconMaxZoomIconSize} className={`${styleInput}`} step={0.1} 
+              onChange={(e) =>setLayerIconProperties({...layerIconProperties, iconMaxZoomIconSize: Number.parseFloat(e.target.value)})}/>
           </div>
           <p className="mt-4 justify-start">
               Las propiedades que admiten expresiones de interpolación pueden cambiar cuando
