@@ -1,11 +1,11 @@
 import React, { useEffect } from 'react'
 import { useLocalState } from '../../../../context/CleanLocalState'
 import { useSelector } from 'react-redux';
-import { saveNewStyle } from '../services/styleManage';
+import { getStyleOfLayerSelected, saveNewStyle } from '../services/styleManage';
 
 export default function StyleManageContainer() {
     const layerName = useSelector(state => state.layerName?.label)
-    const {layerIconProperties,layersPropertyStyle} = useLocalState()
+    const {layerIconProperties,setLayerIconProperties,layersPropertyStyle,setLayerPropertyStyle} = useLocalState()
 
     const data = {
         name_Layer: layerName,
@@ -44,19 +44,61 @@ export default function StyleManageContainer() {
         icon_text_optional: layerIconProperties.iconTextOptional,
     }
     const handleClickSaveStyle = async()=>{
-        if(!layerName){
-            console.log("No hay capa seleccionada");
+        if(!layerName || layerName === "Sin Capa"){
+            alert("No hay capa seleccionada");
             return;
         }
-       const response = await saveNewStyle(data)
-       console.log(response);
+       await saveNewStyle(data)
     }
+
+    useEffect(()=>{
+        const getStyle = async()=>{
+            if(!layerName || layerName === "Sin Capa") return;
+            const response = await getStyleOfLayerSelected(layerName)
+            const data = response.data.data
+            if(data === null) return;
+            setLayerPropertyStyle({
+                ...layersPropertyStyle,
+                colorBase: data.fill_color,
+                lineColor: data.line_color,
+                radius: data.circle_radius,
+                blurLayer: data.line_blur,
+                strokeWidth: data.line_width,
+                pitchAligment: data.circle_pitch_alignment,
+                pitchScale: data.circle_pitch_scale,
+                textColor: data.text_color,
+                textAnchor: data.text_anchor,
+                textOverlap: data.text_allow_overlap,
+                textField: data.text_field
+            })
+            setLayerIconProperties({
+                ...layerIconProperties,
+                iconColor: data.icon_color,
+                icon: data.icon_image,
+                iconSize: data.icon_size,
+                iconHaloColor: data.icon_halo_color,
+                iconHaloWidth: data.icon_halo_width,
+                iconOverlap: data.icon_overlap,
+                iconRotate: data.icon_rotate,
+                iconPitchAlignment: data.icon_pitch_alignment,
+                iconTextColor: data.icon_text_color,
+                iconTextOverlap: data.icon_text_allow_overlap,
+                iconTextRotate: data.icon_text_rotate,
+                iconTextSize: data.icon_text_size,
+                iconTextOffsetX: data.icon_text_offset[0],
+                iconTextOffsetY: data.icon_text_offset[1],
+                iconTextAnchor: data.icon_text_anchor,
+                iconTextOptional: data.icon_text_optional,
+                iconTextTransform: data.icon_text_transform,
+                iconTextField: data.icon_text_field,
+            })
+        }
+        getStyle()
+    },[layerName])
 
     return (
     <div>
-        <button className='tooltip border p-1 rounded'
-            onClick={handleClickSaveStyle}
-        >
+        <button className='tooltip border p-1 rounded' onClick={handleClickSaveStyle}>
             Guardar
             <span className="tooltiptextup">Guardar estilo</span>  
         </button>

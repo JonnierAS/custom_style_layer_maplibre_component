@@ -3,7 +3,7 @@ import {
     HexAlphaColorPicker,RgbaColorPicker
   } from "react-colorful";
 
-export default function HexAlphaColor({mapRender,colorIconState,setOpenIconColor,layersPropertyStyle, handleColorChange, setOpenModalChangeColor}) {
+export default function HexAlphaColor({openModalChangeColor,mapRender,colorIconState,setOpenIconColor,layersPropertyStyle, handleColorChange, setOpenModalChangeColor}) {
   
   const handleClick = ()=>{
     setOpenIconColor 
@@ -24,7 +24,7 @@ export default function HexAlphaColor({mapRender,colorIconState,setOpenIconColor
               ): (
               <>
               <HexAlphaColorPicker
-                color={colorIconState || layersPropertyStyle?.colorBase || layersPropertyStyle?.lineColor || "#6e548c"}
+                color={colorIconState || layersPropertyStyle?.colorBase || layersPropertyStyle?.lineColor}
                 onChange={handleColorChange}
                 className="color-demographic"
                 style={{ height: "140px", width: "140px" }}
@@ -33,7 +33,7 @@ export default function HexAlphaColor({mapRender,colorIconState,setOpenIconColor
                 className={`p-3 rounded border-2 font-sans font-medium h-6 w-full`}
                 prefixed
                 alpha
-                color={colorIconState || layersPropertyStyle?.colorBase || layersPropertyStyle?.lineColor || "#6e548c"}
+                color={ openModalChangeColor?.type === "line" ? layersPropertyStyle?.lineColor : layersPropertyStyle?.colorBase || colorIconState}
                 onChange={handleColorChange}
               />
               </>

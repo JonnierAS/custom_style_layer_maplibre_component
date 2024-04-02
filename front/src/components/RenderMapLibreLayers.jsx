@@ -89,7 +89,7 @@ export default function RenderMapLibreLayers() {
                   "icon-rotate": layerIconProperties.iconRotate,
                   "icon-pitch-alignment": layerIconProperties.iconPitchAlignment,
                   "icon-size": layerIconProperties.iconSize,
-                  "text-field": layerIconProperties.iconTextOptional ? `{${layerIconProperties.iconTextField}}`: null,
+                  "text-field": layerIconProperties.iconTextOptional ? `{${layerIconProperties.iconTextField}}`: "",
                   "text-font": ["Open Sans Regular"],
                   "text-size": layerIconProperties.iconTextSize,
                   "text-transform": layerIconProperties.iconTextTransform,

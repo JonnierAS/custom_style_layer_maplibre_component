@@ -13,7 +13,7 @@ export default function TextStyleIcon() {
   
   const handleColorChange = (colorProp) => {
     setIconProperties({ ...iconProperties, colorIconState: colorProp });
-    setLayerIconProperties({ ...layerIconProperties, textColor: colorProp });
+    setLayerIconProperties({ ...layerIconProperties, iconTextColor: colorProp });
   };
   return (
     <fieldset className={`${styleDivContainer} flex-col gap-5 top-10`}>
@@ -35,8 +35,8 @@ export default function TextStyleIcon() {
         {/* Select properties */}
         <div className={styleDivContainer}>
           <label className={styleLabel}>Elegir etiqueta</label>
-          <select className={styleInput} value={layerIconProperties.textField}
-            onChange={(e) => setLayerIconProperties({ ...layerIconProperties, textField: e.target.value })}
+          <select className={styleInput} value={layerIconProperties.iconTextField}
+            onChange={(e) => setLayerIconProperties({ ...layerIconProperties, iconTextField: e.target.value })}
           >
             {capaProperties && capaProperties?.map((name, index) => (
               <option key={index} value={name}>{name}</option>
@@ -46,13 +46,13 @@ export default function TextStyleIcon() {
 
         <div className={styleDivContainer}>
           <label className={styleLabel}>Tamaño</label>
-          <input className={styleInput} type="number" value={layerIconProperties.textSize} min={12} max={32} step={2} 
-          onChange={(e) =>setLayerIconProperties({...layerIconProperties,textSize: Number.parseInt(e.target.value)})} />
+          <input className={styleInput} type="number" value={layerIconProperties.iconTextSize} min={12} max={32} step={2} 
+          onChange={(e) =>setLayerIconProperties({...layerIconProperties,iconTextSize: Number.parseInt(e.target.value)})} />
         </div>
         <div className={styleDivContainer}>
           <label className={styleLabel}>Transformacion</label>
-          <select className={styleInput} value={layerIconProperties.textTransform}
-            onChange={(e) => setLayerIconProperties({...layerIconProperties,textTransform: e.target.value})}
+          <select className={styleInput} value={layerIconProperties.iconTextTransform}
+            onChange={(e) => setLayerIconProperties({...layerIconProperties,iconTextTransform: e.target.value})}
           >
             <option value="none" label="none"/>
             <option value="uppercase" label="Uppercase"/>
@@ -61,22 +61,22 @@ export default function TextStyleIcon() {
         </div>
         <div className={styleDivContainer}>
           <label className={styleLabel}>Desplazamiento X</label>
-          <input className={styleInput} value={layerIconProperties.textOffsetX} type="number" min={0} step={1} max={20}
-            onChange={(e) =>setLayerIconProperties({...layerIconProperties, textOffsetX: Number.parseInt(e.target.value)})}
+          <input className={styleInput} value={layerIconProperties.iconTextOffsetX} type="number" min={0} step={1} max={20}
+            onChange={(e) =>setLayerIconProperties({...layerIconProperties, iconTextOffsetX: Number.parseInt(e.target.value)})}
           />
         </div>
 
         <div className={styleDivContainer}>
           <label className={styleLabel}>Desplazamiento Y</label>
-          <input className={styleInput} value={layerIconProperties.textOffsetY} type="number" min={0} step={1} max={20}
-            onChange={(e) =>setLayerIconProperties({...layerIconProperties,textOffsetY: Number.parseInt(e.target.value)})}
+          <input className={styleInput} value={layerIconProperties.iconTextOffsetY} type="number" min={0} step={1} max={20}
+            onChange={(e) =>setLayerIconProperties({...layerIconProperties,iconTextOffsetY: Number.parseInt(e.target.value)})}
           />
         </div>
 
         <div className={styleDivContainer}>
           <label className={styleLabel}>Superposición</label>
-          <select className={styleInput}  value={layerIconProperties.textOverlap}
-            onChange={(e) => setLayerIconProperties({...layerIconProperties, textOverlap: e.target.value})}
+          <select className={styleInput}  value={layerIconProperties.iconTextOverlap}
+            onChange={(e) => setLayerIconProperties({...layerIconProperties, iconTextOverlap: e.target.value})}
           >
             <option value={false} label="Never"/>
             <option value={true} label="Always"/>
@@ -84,15 +84,15 @@ export default function TextStyleIcon() {
         </div>
         <div className={styleDivContainer}>
           <label className={styleLabel}>Rotacion</label>
-          <input className={styleInput} type="number" min={0} max={360} step={45}  value={layerIconProperties.textRotate}
-            onChange={(e) =>setLayerIconProperties({...layerIconProperties,textRotate: Number.parseInt(e.target.value)})}
+          <input className={styleInput} type="number" min={0} max={360} step={45}  value={layerIconProperties.iconTextRotate}
+            onChange={(e) =>setLayerIconProperties({...layerIconProperties,iconTextRotate: Number.parseInt(e.target.value)})}
           />
         </div>
 
         <div className={styleDivContainer}>
           <label className={styleLabel}>Ancla</label>
-          <select  className={styleInput} value={layerIconProperties.textAnchor}
-            onChange={(e) => setLayerIconProperties({...layerIconProperties,textAnchor: e.target.value})}
+          <select  className={styleInput} value={layerIconProperties.iconTextAnchor}
+            onChange={(e) => setLayerIconProperties({...layerIconProperties,iconTextAnchor: e.target.value})}
           >
             <option value="center" label="Center"/>
             <option value="top" label="Top"/>
@@ -103,8 +103,8 @@ export default function TextStyleIcon() {
         </div>
         <div className={styleDivContainer}>
           <label className={styleLabel}>Texto Visible</label>
-          <input type="checkbox" checked={layerIconProperties.textOptional}
-            onChange={(e) => {setLayerIconProperties({...layerIconProperties,textOptional: e.target.checked})}}
+          <input type="checkbox" checked={layerIconProperties.iconTextOptional}
+            onChange={(e) => {setLayerIconProperties({...layerIconProperties,iconTextOptional: e.target.checked})}}
           />
         </div>
       </fieldset>
