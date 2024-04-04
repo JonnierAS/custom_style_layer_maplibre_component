@@ -1,0 +1,11 @@
+version: '3.8'
+
+services:
+  frontend_style_layers_app:
+    container_name: frontend_style_layers_app
+    image: frontend_style_layers_app
+    build: .
+    ports:
+      - "3082:3082"
+    env_file:
+      - .env.local
