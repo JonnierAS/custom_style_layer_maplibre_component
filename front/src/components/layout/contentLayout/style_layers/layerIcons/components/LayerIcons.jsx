@@ -1,12 +1,12 @@
 import { MixIcon } from "@radix-ui/react-icons";
 import { useEffect } from "react";
 import { useLocalState } from "../../../../../context/CleanLocalState";
-import { styleDivContainer, styleInput, styleLabel } from "../helper/styleTypeTailwindcss";
+import { styleDivContainer, styleInput, styleLabel } from "../../helper/styleTypeTailwindcss";
 import { useSelector } from "react-redux";
 import { setLayoutProperties } from "../../services/symbol";
 import ModalSelectIcons from "./ModalSelectIcons";
 
-export default function LayerIcons({mapRender}) {
+export default function LayerIcons() {
   const mapRef = useSelector(state=> state.mapRef)
   const layerName = useSelector(state => state.layerName?.label)
   const { layerIconProperties, setLayerIconProperties,openIconSelect, setOpenIconSelect } = useLocalState();
@@ -52,7 +52,6 @@ export default function LayerIcons({mapRender}) {
           onChange={(e) => setLayerIconProperties({ ...layerIconProperties, iconSize: Number.parseFloat(e.target.value)})}/>
       </div>
 
-      {mapRender !== "deckGl" && 
       <div className={` ${styleDivContainer} `}>
         <label className={styleLabel}>Superposición</label>
         <select className={styleInput} value={layerIconProperties.iconOverlap} onChange={(e) => setLayerIconProperties({...layerIconProperties, iconOverlap: e.target.value})} >
@@ -61,7 +60,6 @@ export default function LayerIcons({mapRender}) {
           <option value="cooperative" label="Cooperative" />
         </select>
       </div>
-      }
 
       <div className={` ${styleDivContainer} `}>
         <label className={styleLabel}>Rotación</label>
@@ -69,8 +67,7 @@ export default function LayerIcons({mapRender}) {
           onChange={(e) =>setLayerIconProperties({...layerIconProperties, iconRotate: Number.parseInt(e.target.value)})} />
       </div>
 
-      {mapRender !== "deckGl" && 
-      <>
+      
         <div className={styleDivContainer}>
           <label className={styleLabel}>Alineación de tono</label>
           <select className={styleInput} value={layerIconProperties.iconPitchAlignment} onChange={(e) =>setLayerIconProperties({...layerIconProperties,iconPitchAlignment: e.target.value})}>
@@ -84,8 +81,6 @@ export default function LayerIcons({mapRender}) {
           <label className={styleLabel}>Adapt on zoom</label>
           <input type="checkbox" value={layerIconProperties.iconAdaptOnZoom} onChange={(e) => setLayerIconProperties({...layerIconProperties,iconAdaptOnZoom: e.target.checked,})}/>
         </div>
-      </>
-      }
 
       {layerIconProperties.iconAdaptOnZoom && (
         <div className="relative text-[11px]">

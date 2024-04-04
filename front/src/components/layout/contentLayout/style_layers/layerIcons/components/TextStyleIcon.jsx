@@ -1,7 +1,7 @@
 import React, { useState } from 'react'
 import { ColorWheelIcon } from "@radix-ui/react-icons";
 import { useLocalState } from '../../../../../context/CleanLocalState';
-import { styleDivContainer, styleInput, styleLabel } from '../helper/styleTypeTailwindcss';
+import { styleDivContainer, styleInput, styleLabel } from '../../helper/styleTypeTailwindcss';
 import HexAlphaColor from '../../components/HexAlphaColor';
 
 export default function TextStyleIcon() {

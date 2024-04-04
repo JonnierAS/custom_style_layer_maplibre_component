@@ -7,8 +7,6 @@ export const LocalStateProvider = ({ children }) => {
   const [layersPropertyStyle, setLayerPropertyStyle] = useState({
     colorBase: "#6e548c",
     lineColor: "#6e548c",
-    colorBaseDeck: "110, 84, 140",
-    lineColorDeck: "110, 84, 140",
     radius: 4,
     blurLayer: 0.2,
     strokeWidth: 1,

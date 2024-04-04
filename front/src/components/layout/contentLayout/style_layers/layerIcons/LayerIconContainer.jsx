@@ -6,7 +6,7 @@ import axios from 'axios';
 import xmljs from 'xml-js';
 import { useLocalState } from '../../../../context/CleanLocalState';
 
-export default function LayerIconContainer({mapRender}) {
+export default function LayerIconContainer() {
   const {setCapaProperties}=useLocalState()
   const layerName = useSelector(state => state.layerName?.label)
 
@@ -31,8 +31,8 @@ export default function LayerIconContainer({mapRender}) {
   }, [layerName])
   return (
     <div>
-        <LayerIcons mapRender={mapRender} />
-        {mapRender !== "deckGl" &&<TextStyleIcon /> }
+        <LayerIcons />
+        <TextStyleIcon /> 
     </div>
   )
 }

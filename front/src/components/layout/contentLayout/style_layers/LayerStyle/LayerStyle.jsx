@@ -5,11 +5,10 @@ import SelectLayers from "../components/SelectLayers";
 import ContentlayerStyle from "./ContentlayerStyle";
 import { useSelector } from "react-redux";
 import { setPaintProperties } from "../services/symbol";
-import { Link } from "react-router-dom";
 import StyleManageContainer from "../components/StyleManageContainer";
+import { styleInput } from "../helper/styleTypeTailwindcss";
 
-const styleInput = "absolute w-28 top-[-10px] left-28 py-1 px-2 text-sm rounded outline-none focus-visible:ring-1 focus-visible:ring-offset-1 focus-visible:ring-purple-500 dark:focus-visible:ring-purple-500 dark:focus-visible:ring-offset-gray-900 border border-gray-200 dark:border-gray-500 shadow-sm focus-visible:border-gray-200 dark:focus-visible:border-gray-300 hover:border-gray-300 dark:hover:border-gray-300 block dark:bg-transparent dark:text-gray-100"
-function LayerStyle({mapRender}) {
+function LayerStyle() {
   const mapRef = useSelector(state=> state.mapRef)
   const layerName = useSelector(state => state.layerName?.label)
     const { openModalChangeColor, setOpenModalChangeColor, layersPropertyStyle, setLayerPropertyStyle } = useLocalState();
@@ -39,12 +38,6 @@ function LayerStyle({mapRender}) {
     <div className="text-center relative top-5">
       <div className="flex justify-center text-center items-center gap-1">
         <SelectLayers />
-        <Link to={window.location.pathname === "/web/style/mapLibre" ? "/web/style": "/web/style/mapLibre"}>
-          <button className="tooltip border rounded p-1" >
-            {window.location.pathname === "/web/style" ? "Map Libre": "DeckGl"}
-            <span className="tooltiptextup">Cambiar de Mapa</span>  
-          </button>
-        </Link>
         <StyleManageContainer />
       </div>
 
@@ -56,7 +49,7 @@ function LayerStyle({mapRender}) {
       </select>): null
       }
       {typeOfLayer && typeOfLayer !== "null" ? (
-        <ContentlayerStyle mapRender={mapRender}
+        <ContentlayerStyle
         typeOfLayer={typeOfLayer}
         openModalChangeColor={openModalChangeColor} 
         setOpenModalChangeColor={setOpenModalChangeColor} 

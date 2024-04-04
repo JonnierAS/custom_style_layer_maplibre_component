@@ -43,7 +43,7 @@ export default function MapContainer() {
   }, [mapRef,layerIconProperties]);
   return (
     <>
-      <SidePanel side={"right"} panelWidth={panelWidth} setPanelWidth={setPanelWidth} setShowPanel={setShowPanel} showPanel={showPanel} mapRender={"mapLibre"}/>
+      <SidePanel side={"right"} panelWidth={panelWidth} setPanelWidth={setPanelWidth} setShowPanel={setShowPanel} showPanel={showPanel} />
       <Map ref={mapRef}
         attributionControl={false}
         initialViewState={{longitude: LONG, latitude: LAT, zoom: ZOOM}}

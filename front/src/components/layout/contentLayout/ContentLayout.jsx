@@ -3,7 +3,7 @@ import LayerStyle from "./style_layers/LayerStyle/LayerStyle";
 import LayerIconContainer from "./style_layers/layerIcons/LayerIconContainer";
 
 
-  export default function ContentLayout({mapRender}) {
+  export default function ContentLayout() {
     const [openLayerCircle, setOpenLayerCircle] = useState(true);
     const [openLayerIcon, setOpenLayerIcon] = useState(false);
 
@@ -24,11 +24,11 @@ import LayerIconContainer from "./style_layers/layerIcons/LayerIconContainer";
         </div>
 
         <div className={`${openLayerCircle ? "" : "hidden"}`}>
-          <LayerStyle mapRender={mapRender} />
+          <LayerStyle />
         </div>
         
         <div className={`${openLayerIcon ? "": "hidden"}`}>
-          <LayerIconContainer  mapRender={mapRender} />
+          <LayerIconContainer />
         </div>
         
       </div>

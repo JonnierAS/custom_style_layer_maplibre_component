@@ -1,10 +1,10 @@
 import {ColorWheelIcon} from "@radix-ui/react-icons";
-import { styleDivContainer, styleLabel } from "../layerIcons/helper/styleTypeTailwindcss";
+import { styleDivContainer, styleLabel } from "../helper/styleTypeTailwindcss";
 import { useState } from "react";
 import HexAlphaColor from "../components/HexAlphaColor";
 import { useLocalState } from "../../../../context/CleanLocalState";
 
-export default function ContentlayerStyle({mapRender,typeOfLayer, styleInput, openModalChangeColor, setOpenModalChangeColor, setLayerPropertyStyle, layersPropertyStyle}) {
+export default function ContentlayerStyle({typeOfLayer, styleInput, openModalChangeColor, setOpenModalChangeColor, setLayerPropertyStyle, layersPropertyStyle}) {
   const {capaProperties} = useLocalState()  
   const [textProperties, settextProperties] = useState({
       opentextColor: false,
@@ -12,10 +12,10 @@ export default function ContentlayerStyle({mapRender,typeOfLayer, styleInput, op
     });
     const handleColorChangeColorBase = (color) => {
       if(openModalChangeColor.type === "base"){
-        setLayerPropertyStyle({...layersPropertyStyle, colorBase: color, colorBaseDeck: color})
+        setLayerPropertyStyle({...layersPropertyStyle, colorBase: color})
       }
       if(openModalChangeColor.type === "line"){
-        setLayerPropertyStyle({...layersPropertyStyle, lineColor: color, lineColorDeck: color})
+        setLayerPropertyStyle({...layersPropertyStyle, lineColor: color})
       }
     };
     const openModalChangeColorHandler = (typeColor) => {
@@ -58,14 +58,12 @@ export default function ContentlayerStyle({mapRender,typeOfLayer, styleInput, op
         </div>
         }
 
-        {mapRender !== "deckGl" && 
         <div className={styleDivContainer}>
             <label className="font-medium">Desenfoque:</label>
             <input className={styleInput} type="number" min={0} step={0.2} value={layersPropertyStyle.blurLayer}
             onChange={(e)=>setLayerPropertyStyle({...layersPropertyStyle, blurLayer: Number.parseFloat(e.target.value)})}
             />
         </div>
-        }
 
         <div className={styleDivContainer}>
             <label className="font-medium">Ancho de Linea:</label>
@@ -75,7 +73,7 @@ export default function ContentlayerStyle({mapRender,typeOfLayer, styleInput, op
         </div>
 
         {textProperties.opentextColor && (
-          <HexAlphaColor mapRender={mapRender}
+          <HexAlphaColor
            openModalChangeColor={openModalChangeColor}
             colorIconState={textProperties.colortextState}
             handleColorChange={handleColorChange}
@@ -83,14 +81,14 @@ export default function ContentlayerStyle({mapRender,typeOfLayer, styleInput, op
           />
         )}
         {openModalChangeColor.state === true  && (
-          <HexAlphaColor mapRender={mapRender}
+          <HexAlphaColor
           openModalChangeColor={openModalChangeColor}
           layersPropertyStyle={layersPropertyStyle} 
           handleColorChange={handleColorChangeColorBase} 
           setOpenModalChangeColor={setOpenModalChangeColor} />
         )}
 
-        {typeOfLayer !== "polygon" &&  mapRender !== "deckGl" ?(
+        {typeOfLayer !== "polygon"  ?(
         <>
             <div className={styleDivContainer}>
                 <label className="font-medium">Alineación de tono:</label>
