@@ -105,7 +105,7 @@ export default function RenderMapLibreLayers() {
                   "icon-halo-color": layerIconProperties.iconHaloColor || "#000000",
                   "text-color": layerIconProperties.iconTextColor,
                 }}
-                minzoom={11}
+                minzoom={12}
               />
             }
           </Source>
