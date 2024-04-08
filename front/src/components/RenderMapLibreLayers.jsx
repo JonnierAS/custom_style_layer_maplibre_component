@@ -1,14 +1,77 @@
-import React from 'react'
+import React, { useEffect, useState } from 'react'
 import { useSelector } from 'react-redux'
 import { Layer, Source } from "react-map-gl";
 import { useLocalState } from './context/CleanLocalState'
+import * as h3 from 'h3-js';
 
 export default function RenderMapLibreLayers() {
     const {layersPropertyStyle, layerIconProperties} = useLocalState()
+    const [dataURL, setDataURl] = useState(null)
     const layerName = useSelector(state => state.layerName?.label)
+    const dataUrlFetch = `${import.meta.env.VITE_URL_GEOSERVER}/${import.meta.env.VITE_WORK_SPACE_GEOSERVER}/ows?service=WFS&version=1.0.0&request=GetFeature&typeName=${import.meta.env.VITE_WORK_SPACE_GEOSERVER}:Asesoras&outputFormat=application/json`
     const urlTile = `${import.meta.env.VITE_URL_GEOSERVER}/gwc/service/tms/1.0.0/azzorti_vt:${layerName}@EPSG%3A900913@pbf/{z}/{x}/{y}.pbf`
+
+  //   useEffect(() => {
+  //     const fetchData = async () => {
+  //       try {
+  //         const response = await fetch(dataUrlFetch);
+  //         const json = await response.json();
+  //           // Función para generar índices H3 a partir de las coordenadas de los puntos
+  //           const generateH3Indexes = (coordinates, resolution) => {
+  //             if (!coordinates) return [];
+  //             const h3Indexes = coordinates.map(feature => {
+  //               // console.log(feature);
+  //               if (feature.properties.ZONA_SECT === '022-004') {
+  //                 return h3.latLngToCell(feature.geometry.coordinates[0], feature.geometry.coordinates[1], resolution);
+  //               } else {
+  //                 return null; // O cualquier otro valor que desees devolver para los elementos que no cumplan la condición
+  //               }
+  //             });
+            
+  //             // Filtrar los elementos null del arreglo resultante
+  //             return h3Indexes.filter(index => index !== null);
+  //           };
+      
+  //         const h3Indexes = generateH3Indexes(json.features,10);
+  //           console.log(h3Indexes);
+  //         const getHexagonVertices = (h3Index) => {
+  //           const hexagonBoundary = h3.cellToBoundary(h3Index);
+  //           return [hexagonBoundary.map(vertex => [vertex[0], vertex[1]])];
+  //         };
+  //           // Crear una FeatureCollection con los hexágonos
+  //           setDataURl(h3Indexes.map((index, i) => ({
+  //             type: 'Feature',
+  //             geometry: {
+  //               type: 'Polygon',
+  //               coordinates: getHexagonVertices(index)
+  //             },
+  //             properties: {
+  //               id: i
+  //             }
+  //           })))
+  //       } catch (error) {
+  //         console.error('Error fetching data:', error);
+  //       }
+  //     };
+          
+  //   fetchData();
+  // }, []);
   return (
     <div>
+       {/* Agregar una Source y Layers para los puntos H3 */}
+       {/* {dataURL && 
+        <Source id="hexagons" type="geojson" data={{ type: 'FeatureCollection', features: dataURL }}>
+        <Layer
+          id="hexagons-layer"
+          type="fill"
+          source="hexagons"
+          paint={{
+            'fill-color': '#ff0000',
+            'fill-opacity': 0.5
+          }}
+        />
+      </Source> */}
+       
         {layerName && layerName !== "Sin Capa" ? (
           <>
             <Source key={layerName + "layers"} id={layerName} type="vector" scheme="tms" name={layerName} tiles={[urlTile]}>
