@@ -3,12 +3,13 @@ import { useSelector } from 'react-redux'
 import { Layer, Source } from "react-map-gl";
 import { useLocalState } from './context/CleanLocalState'
 import * as h3 from 'h3-js';
+import SingaporeData from './SingaporeData';
 
 export default function RenderMapLibreLayers() {
     const {layersPropertyStyle, layerIconProperties} = useLocalState()
     const [dataURL, setDataURl] = useState(null)
     const layerName = useSelector(state => state.layerName?.label)
-    const dataUrlFetch = `${import.meta.env.VITE_URL_GEOSERVER}/${import.meta.env.VITE_WORK_SPACE_GEOSERVER}/ows?service=WFS&version=1.0.0&request=GetFeature&typeName=${import.meta.env.VITE_WORK_SPACE_GEOSERVER}:Asesoras&outputFormat=application/json`
+    const dataUrlFetch = `${import.meta.env.VITE_URL_GEOSERVER}/${import.meta.env.VITE_WORK_SPACE_GEOSERVER}/ows?service=WFS&version=1.0.0&request=GetFeature&typeName=${import.meta.env.VITE_WORK_SPACE_GEOSERVER}:Bodegas_lima&outputFormat=application/json`
     const urlTile = `${import.meta.env.VITE_URL_GEOSERVER}/gwc/service/tms/1.0.0/azzorti_vt:${layerName}@EPSG%3A900913@pbf/{z}/{x}/{y}.pbf`
 
   //   useEffect(() => {
@@ -21,11 +22,8 @@ export default function RenderMapLibreLayers() {
   //             if (!coordinates) return [];
   //             const h3Indexes = coordinates.map(feature => {
   //               // console.log(feature);
-  //               if (feature.properties.ZONA_SECT === '022-004') {
-  //                 return h3.latLngToCell(feature.geometry.coordinates[0], feature.geometry.coordinates[1], resolution);
-  //               } else {
-  //                 return null; // O cualquier otro valor que desees devolver para los elementos que no cumplan la condición
-  //               }
+  //                 return h3.latLngToCell(feature.geometry.coordinates[1], feature.geometry.coordinates[0], resolution);
+               
   //             });
             
   //             // Filtrar los elementos null del arreglo resultante
@@ -36,7 +34,7 @@ export default function RenderMapLibreLayers() {
   //           console.log(h3Indexes);
   //         const getHexagonVertices = (h3Index) => {
   //           const hexagonBoundary = h3.cellToBoundary(h3Index);
-  //           return [hexagonBoundary.map(vertex => [vertex[0], vertex[1]])];
+  //           return [hexagonBoundary];
   //         };
   //           // Crear una FeatureCollection con los hexágonos
   //           setDataURl(h3Indexes.map((index, i) => ({
@@ -58,19 +56,21 @@ export default function RenderMapLibreLayers() {
   // }, []);
   return (
     <div>
+      {/* <SingaporeData setDataURl={setDataURl}/> */}
        {/* Agregar una Source y Layers para los puntos H3 */}
-       {/* {dataURL && 
+       {dataURL && 
         <Source id="hexagons" type="geojson" data={{ type: 'FeatureCollection', features: dataURL }}>
         <Layer
           id="hexagons-layer"
           type="fill"
           source="hexagons"
           paint={{
-            'fill-color': '#ff0000',
-            'fill-opacity': 0.5
+            'fill-outline-color': 'white',
+            "fill-color": ["get", "color"],
+            "fill-opacity": ["get", "opacity"],
           }}
         />
-      </Source> */}
+      </Source>}
        
         {layerName && layerName !== "Sin Capa" ? (
           <>
