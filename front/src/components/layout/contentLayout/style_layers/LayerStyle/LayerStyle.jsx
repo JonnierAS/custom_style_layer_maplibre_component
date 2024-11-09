@@ -8,7 +8,7 @@ import { setPaintProperties } from "../services/symbol";
 import { Link } from "react-router-dom";
 import StyleManageContainer from "../components/StyleManageContainer";
 
-const styleInput = "absolute w-28 top-[-10px] left-28 py-1 px-2 text-sm rounded outline-none focus-visible:ring-1 focus-visible:ring-offset-1 focus-visible:ring-purple-500 dark:focus-visible:ring-purple-500 dark:focus-visible:ring-offset-gray-900 border border-gray-200 dark:border-gray-500 shadow-sm focus-visible:border-gray-200 dark:focus-visible:border-gray-300 hover:border-gray-300 dark:hover:border-gray-300 block dark:bg-transparent dark:text-gray-100"
+const styleInput = "absolute w-28 top-[-10px] left-28 py-1 px-2 text-sm rounded outline-none focus-visible:ring-1 focus-visible:ring-offset-1 focus-visible:ring-purple-500  border border-gray-200 shadow-sm focus-visible:border-gray-200 :focus-visible:border-gray-300 hover:border-gray-300 :hover:border-gray-300 block "
 function LayerStyle({mapRender}) {
   const mapRef = useSelector(state=> state.mapRef)
   const layerName = useSelector(state => state.layerName?.label)

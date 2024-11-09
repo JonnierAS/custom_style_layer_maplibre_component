@@ -28,7 +28,6 @@ export function RightPanelLayoutBtn({ side, setShowPanel, showPanel }) {
             `
             absolute px-0.5 py-2 top-1/2 border-t border-b
             bg-white hover:bg-purple-100 border-gray-300
-            dark:bg-gray-900 dark:text-white dark:border-white
             rounded
           `
           )}
@@ -161,8 +160,8 @@ export const TContent = classed(T.Content)(({ size = "sm" }) => [
     text-sm
     border
     shadow-sm
-    text-gray-700          dark:text-white
-    bg-white               dark:bg-gray-900
-    border-gray-200        dark:border-gray-600
+    text-gray-700          
+    bg-white               
+    border-gray-200        
     `,
 ]);
