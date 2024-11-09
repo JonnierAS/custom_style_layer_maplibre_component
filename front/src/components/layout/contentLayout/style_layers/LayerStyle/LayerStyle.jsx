@@ -38,7 +38,7 @@ function LayerStyle({mapRender}) {
     <div className="text-center relative top-5">
       <div className="flex justify-center text-center items-center gap-1">
         <SelectLayers />
-        <StyleManageContainer />
+        {/* <StyleManageContainer /> */}
       </div>
 
       {layerName && layerName !== "Sin Capa" ? (
