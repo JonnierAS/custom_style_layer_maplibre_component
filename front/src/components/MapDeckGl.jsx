@@ -6,7 +6,6 @@ import maplibregl from "maplibre-gl";
 import { RightPanelLayoutBtn, SidePanel } from './layout/RightPanelLayout';
 import { useLocalState } from './context/CleanLocalState';
 import { setMapref } from '../redux/actions/mapActions';
-import DeckGlOverLay from './deckGl/DeckGlOverLay';
 import DrawControl from './toolbar/ToolbarControl';
 
 const INITIAL_VIEW_STATE = {
@@ -45,7 +44,6 @@ export default function MapContainerDeckGl() {
         mapLib={maplibregl}
         style={{width: showPanel ? `${screenWidth - panelWidth}px` : "100vw",height: "100vh",transition: applyTransition ? "width 0.5s ease" : ""}}
       >
-        <DeckGlOverLay />
         <NavigationControl position="bottom-left" />
         <DrawControl position="bottom-left"  displayControlsDefault={true}/>
         <RightPanelLayoutBtn side={"right"}  setShowPanel={setShowPanel} showPanel={showPanel}/>
