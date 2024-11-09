@@ -39,12 +39,12 @@ function LayerStyle({mapRender}) {
     <div className="text-center relative top-5">
       <div className="flex justify-center text-center items-center gap-1">
         <SelectLayers />
-        <Link to={window.location.pathname === "/mapLibre" ? "/": "/mapLibre"}>
+        {/* <Link to={window.location.pathname === "/mapLibre" ? "/": "/mapLibre"}>
           <button className="tooltip border rounded p-1" >
             {window.location.pathname === "/" ? "Map Libre": "DeckGl"}
             <span className="tooltiptextup">Cambiar de Mapa</span>  
           </button>
-        </Link>
+        </Link> */}
         <StyleManageContainer />
       </div>
 
