@@ -49,7 +49,7 @@ function SelectLayers() {
       id: index + 1,
       value: layer.value,
       label: layer.label,
-    })).filter(layer => layer.label !== "" && layer.value !== "")
+    })).filter(layer => layer.label !== "" && layer.value !== "" && layer.label != 'Asesoras_Azzorti' && layer.label != 'Sectores_Azzorti' && layer.label != 'Zonas_Azzorti' && layer.label != 'Sectores_Livva')
   ] : null;
 
   return (
