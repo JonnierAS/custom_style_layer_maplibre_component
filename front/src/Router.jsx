@@ -4,13 +4,13 @@ import MapContainerDeckGl from "./components/MapDeckGl";
 
 const router = createBrowserRouter([
   {
-    path: '/mapLibre',
+    path: '/',
     element: <MapContainer />
   },
-  {
-    path: '/',
-    element: <MapContainerDeckGl />
-  },
+  // {
+  //   path: '/',
+  //   element: <MapContainerDeckGl />
+  // },
 
  
 ])
